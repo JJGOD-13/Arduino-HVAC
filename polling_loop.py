@@ -8,6 +8,8 @@ This program will outline how the arduino will continuosly read data from the se
 import time
 from pymata4 import pymata4
 import random
+from show_system_menu import show_system_menu
+from HVAC_graph import graph, randomised_data
 
 # Initialise the Arduino
 board = pymata4.Pymata4()
@@ -86,7 +88,7 @@ if __name__ == "__main__":
 
             # Calculate the cycle length
             cycleLength = polling_loop_cycle_length(startTime, endTime)
-            print(f "Cycle Length: {cycleLength} seconds")
+            print(f"Cycle Length: {cycleLength} seconds")
         
         except KeyboardInterrupt:
 
