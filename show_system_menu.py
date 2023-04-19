@@ -92,5 +92,6 @@ def show_system_menu():
         print("\n")
         exit(1)
             
+if __name__ == "__main__":
 
-show_system_menu()
+    show_system_menu()

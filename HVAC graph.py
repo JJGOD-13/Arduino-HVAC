@@ -33,7 +33,8 @@ def randomised_data():
                 data.append(data[-1]-increment)
     return data
 
-graph(randomised_data())
+if __name__ == "__main__":
+    graph(randomised_data())
 
 
 # while len(temperatureValues)==20:
