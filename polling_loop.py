@@ -87,5 +87,7 @@ if __name__ == "__main__":
             # Calculate the cycle length
             cycleLength = polling_loop_cycle_length(startTime, endTime)
             print(f "Cycle Length: {cycleLength} seconds")
+        
         except KeyboardInterrupt:
+
             show_system_menu()
