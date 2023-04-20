@@ -140,11 +140,13 @@ def show_system_menu():
 """
 This function will check the user pin
 INPUT: None
-OUTPUT: True if the pin is correct, False if the pin is incorrect. (1 if the special pin is entered)
+OUTPUT: True if the pin is correct, (1 if the special pin is entered)
+DEPENDENCY: Requires a csv file called passcodes.csv to exist. 
+            Requires csv module imported.
 
 #TODO:
     - Add a shutdown function if the user enters the incorrect pin 3 times
-    - Save the pin to another file so that it is saved even if the program is closed
+    
 """
 def check_user_pin():
     # set the incorrect pin count to 0
