@@ -3,13 +3,8 @@
 # THis file contains the function for showing the system menu
 
 import csv
+import time
 
-# Open the csv file and then read the data
-with open("passcodes.csv") as file:
-    reader = csv.DictReader(file)
-    row = list(reader)
-    userPin = row[0]["Value"]
-    specialPin = row[1]["Value"]
     
 
 # Global Variables
@@ -19,9 +14,14 @@ def setup_user_pin():
         This function will set the user pin
         INPUTS: None
         OUTPUTS: True if the user hasn't set their pin before, False if they have
+        DEPENDENCIES: Requires a csv file called passcodes.csv
         """
-     # Set the global variable userPin
-        global userPin
+        # Open the csv file and then set userPin and specialPin
+        with open("passcodes.csv") as file:
+            reader = csv.DictReader(file)
+            row = list(reader)
+            userPin = row[0]["Value"]
+            specialPin = row[1]["Value"]
 
         # Check if this is the first time that the user has run the program
         if  int(str(userPin)) == 0:
@@ -72,8 +72,7 @@ def setup_user_pin():
                     writer.writerow(row[1])
 
 
-            # Some more messages
-            
+            # Some more messages      
             print("Thank you for setting your pin")
             print("Remember you can change your pin at anytime through the settings menu \n")
             print("Please enter your pin to continue")
@@ -81,74 +80,21 @@ def setup_user_pin():
         else:
             return False
 
-# Show System Menu
-def show_system_menu():
-    try:
-       
-        
-        # Ask the user to enter their pin
-        check_user_pin()
-
-        
-
-        
-        # Show the system menu
-        print(4*"\n")
-        print("Welcome to the Arduino HVAC System \n")
-        print("Please select an option from the menu below \n")
-        print("Do so by entering the corresponding number \n")
-    
-        # Options
-        print("1. Fan Operation")
-        print("2. Graphs")
-        print("3. Settings")
-
-        # Ask user for input
-        while True:
-            try:
-                userOption = int(input("Please enter your option: "))
-                if userOption == 1:
-                    print("Fan Operation")
-                    #TODO: Add fan operation function
-                    break
-                elif userOption == 2:
-                    print("Graphs")
-                    #TODO: Add graphs function
-                    break
-                elif userOption == 3:
-                    print("Settings")
-                    #TODO: Add settings function
-                    break
-                else:
-                    print("Please enter a valid option")
-                    continue
-            except ValueError:
-                print("Please enter a valid option")
-                continue
-
-        
 
 
 
-    except KeyboardInterrupt:
-        print(5*"\n")
-        print("You have exited the program")
-        print("\n")
-        exit(1)
-
-
-"""
-This function will check the user pin
-INPUT: None
-OUTPUT: True if the pin is correct, (1 if the special pin is entered)
-DEPENDENCY: Requires a csv file called passcodes.csv to exist. 
-            Requires csv module imported.
-
-#TODO:
-    - Add a shutdown function if the user enters the incorrect pin 3 times
-    
-"""
 def check_user_pin():
+    """
+    This function will check the user pin
+    INPUT: None
+    OUTPUT: True if the pin is correct, (1 if the special pin is entered)
+    DEPENDENCY: Requires a csv file called passcodes.csv to exist. 
+                Requires csv module imported.
+
+    #TODO:
+        - Add a shutdown function if the user enters the incorrect pin 3 times
+
+    """
     # set the incorrect pin count to 0
     incorrectPinCount = 0
     # Use the global variable for the user pin
@@ -164,7 +110,9 @@ def check_user_pin():
         try:
             if incorrectPinCount == 3: # Might need to put in a different function i.e shutdown() if this is the case #TODO
                 print("You have entered the incorrect pin 3 times")
+                time.sleep(0.2)
                 print("The system will now shut down")
+                time.sleep(0.2)
                 print("Your Pin will be erased")
                 userPin = 0
                 
