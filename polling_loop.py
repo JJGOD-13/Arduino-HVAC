@@ -8,7 +8,7 @@ This program will outline how the arduino will continuosly read data from the se
 import time
 from pymata4 import pymata4
 import random
-from show_system_menu import show_system_menu
+from Menu import main_menu
 from HVAC_graph import graph, randomised_data
 
 # Initialise the Arduino
@@ -92,4 +92,4 @@ if __name__ == "__main__":
         
         except KeyboardInterrupt:
 
-            show_system_menu()
+            main_menu()
