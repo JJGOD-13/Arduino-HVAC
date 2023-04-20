@@ -70,7 +70,7 @@ def main_menu():
 def system_settings():
     print(temp)
 
-
-main_menu()
-system_settings()
+if __name__ == "__main__":
+    main_menu()
+    system_settings()
 
