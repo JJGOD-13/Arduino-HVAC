@@ -14,11 +14,13 @@ with open("passcodes.csv") as file:
 
 # Global Variables
 
-
-# Show System Menu
-def show_system_menu():
-    try:
-        # Set the global variable userPin
+def setup_user_pin():
+        """
+        This function will set the user pin
+        INPUTS: None
+        OUTPUTS: True if the user hasn't set their pin before, False if they have
+        """
+     # Set the global variable userPin
         global userPin
 
         # Check if this is the first time that the user has run the program
@@ -75,6 +77,14 @@ def show_system_menu():
             print("Thank you for setting your pin")
             print("Remember you can change your pin at anytime through the settings menu \n")
             print("Please enter your pin to continue")
+            return True
+        else:
+            return False
+
+# Show System Menu
+def show_system_menu():
+    try:
+       
         
         # Ask the user to enter their pin
         check_user_pin()
@@ -140,7 +150,13 @@ def check_user_pin():
     # set the incorrect pin count to 0
     incorrectPinCount = 0
     # Use the global variable for the user pin
-    global userPin
+    
+    # Open the csv file and then read the data
+    with open("passcodes.csv") as file:
+        reader = csv.DictReader(file)
+        row = list(reader)
+        userPin = row[0]["Value"]
+        specialPin = row[1]["Value"]
         
     while True:
         try:
@@ -149,18 +165,31 @@ def check_user_pin():
                 print("The system will now shut down")
                 print("Your Pin will be erased")
                 userPin = 0
+                
+                # Erase the pin
+                with open("passcodes.csv") as file:
+                    reader = csv.DictReader(file)
+                    row = list(reader)
+                    row[0]["Value"] = userPin
+                
+                    with open("passcodes.csv", "w") as file:
+                        fieldnames = ["Passcode", "Value"]
+                        writer = csv.DictWriter(file, fieldnames=fieldnames )
+                        writer.writeheader()
+                        writer.writerow(row[0])
+                        writer.writerow(row[1])
                 exit(1)
             
             tempPin = int(input("Please enter your pin: "))
             if tempPin == userPin:
                 return True
-                break
+                
 
             elif tempPin == specialPin:
                 print("You have entered the special pin")
                 # show_special_message()
                 return(1)
-                break
+
             else:
                 print("The entered pin is incorrect. Please try again \n")
                 incorrectPinCount += 1
@@ -172,5 +201,7 @@ def check_user_pin():
 
 
 if __name__ == "__main__":
+    setup_user_pin()
 
-    show_system_menu()
+    check_user_pin()
+    
