@@ -46,6 +46,7 @@ def main_menu():
             #operation 2: Graphing
             elif operation == "2":
                 graph(data)
+                continue
 
             #operation 3: System settings
             elif operation == "3":
