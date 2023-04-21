@@ -1,3 +1,11 @@
+
+import time
+from pymata4 import pymata4
+import random
+import matplotlib.pyplot as plt
+from HVAC_graph import graph, randomised_data
+from callback_functions import process_thermistor_data
+
 temp = 25
 
 def main_menu():
