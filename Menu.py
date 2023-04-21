@@ -5,6 +5,8 @@ import random
 import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data
+#import polling function
+#import pin function
 
 temp = 25
 
