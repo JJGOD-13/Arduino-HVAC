@@ -10,12 +10,20 @@ from pymata4 import pymata4
 import random
 from Menu import main_menu
 from HVAC_graph import graph, randomised_data
+from callback_functions import process_thermistor_data
 
 # Initialise the Arduino
 board = pymata4.Pymata4()
 
-# Initialise pins
 
+# Callback data indices
+CB_PIN_MODE = 0
+CB_PIN = 1
+CB_VALUE = 2
+CB_TIME = 3
+
+
+# Initialise pins
 PIN_1 = 0
 PIN_2 = 1
 
@@ -58,15 +66,6 @@ def polling_loop_cycle_length(start, end):
 # INPUT: NOne
 # OUTPUT: A random sequence of values
 
-def generate_random_sequence():
-    # Generate a random number between 1 and 10
-    randomNum = random.randint(1, 10)
-    # Create an empty list
-    randomSequence = list()
-    # Populate the list with random numbers between 1 and 10
-    for i in range(0, randomNum):
-        randomSequence.append(random.randint(1, 10))
-    return randomSequence
 
 # Polling Loop
 
@@ -91,5 +90,6 @@ if __name__ == "__main__":
             print(f"Cycle Length: {cycleLength} seconds")
         
         except KeyboardInterrupt:
+
 
             main_menu()
