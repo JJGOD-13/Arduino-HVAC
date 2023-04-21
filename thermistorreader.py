@@ -13,6 +13,8 @@ tempData = []
 tempEverySecond = []
 
 
+
+
 def process_thermistor_data(data): 
     """
     A callback function to report data changes.

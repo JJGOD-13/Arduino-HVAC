@@ -3,47 +3,59 @@ import random
 import time
 
 def graph(temperatureValues: list):
+    """
+    This function generates a graph that plots temperature against time for the last 20s
+
+    :param temperatureValues: a list of temperature values to be plotted (1 value/second)
+
+    :return: None
+    """
     timeValues = []
     for n in range(1,21):
         timeValues.append(n)
 
-    plt.plot(timeValues,temperatureValues)
+    valuesToBeGraphed = temperatureValues[-20:]
+
+    plt.plot(timeValues,valuesToBeGraphed)
     plt.xlabel('Time(s)')
     plt.ylabel('Temperature(°C)')
     plt.title('Temperature vs Time')
-    plt.axis([0,21,min(temperatureValues)-3,max(temperatureValues)+3])
     plt.show()
 
-def randomised_data():
-    data = [22]
-    increasing = True
-    while len(data)<20:
-        increment = random.random()   
-        if random.random()<0.25:
-            if increasing == True:
-                data.append(data[-1]-increment)
-                increasing = False
-            elif increasing == False:
-                data.append(data[-1]+increment)
-                increasing = True
-        else:
-            if increasing == True:
-                data.append(data[-1]+increment)
-            elif increasing == False:
-                data.append(data[-1]-increment)
+def randomised_data(data: list)-> list:
+    """
+    This function will generate a pseudo-random number and add it to a list of data for graphing.
+    
+    :param data: current list of values to be appended to
+    
+    :return: new list of data with added value
+    """
+    increment = random.random()*0.1
+          
+    if random.random()<0.25: #less likelihood for temperature to stop increasing/decreasing and start decreasing/increasing
+        if increasing == True:
+            data.append(data[-1]-increment)
+            increasing = False
+        elif increasing == False:
+            data.append(data[-1]+increment)
+            increasing = True
+    else:
+        if increasing == True:
+            data.append(data[-1]+increment)
+        elif increasing == False:
+            data.append(data[-1]-increment)
+
     return data
 
-if __name__ == "__main__":
-    graph(randomised_data())
 
-
-# while len(temperatureValues)==20:
-#     increment = random.random()
-#     if random.random()<0.5:
-#         temperatureValues.append(temperatureValues[-1]+increment)
-#     else:
-#         temperatureValues.append(temperatureValues[-1]-increment)
-#     temperatureValues.pop(0)
-#     print(temperatureValues)
-#     time.sleep(1)
-
+if __name__ == '__main__':
+    try:
+        #need to initialise as global variables
+        data = [22] 
+        increasing = random.choice([True,False])
+            
+        while True:
+            time.sleep(1)
+            randomised_data(data)
+    except KeyboardInterrupt:
+        graph(randomised_data(data))
