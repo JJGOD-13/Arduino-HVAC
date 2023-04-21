@@ -68,7 +68,7 @@ def main_menu():
 
 
 def system_settings():
-    print(temp)
+    print(f"The current temperature of the room is set to {temp} degrees celcius.")
 
 if __name__ == "__main__":
     main_menu()
