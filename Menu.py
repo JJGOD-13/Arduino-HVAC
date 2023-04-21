@@ -72,5 +72,5 @@ def system_settings():
 
 if __name__ == "__main__":
     main_menu()
-    system_settings()
+    
 
