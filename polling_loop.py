@@ -73,6 +73,7 @@ if __name__ == "__main__":
 
     while True:
         try:
+            # Make the loop sleep every second to get the time correct #TODO
             # Start the timer
             startTime = time.time()
 
@@ -80,7 +81,7 @@ if __name__ == "__main__":
             temp = board.analog_read(PIN_1)
 
             # Generate a random sequence
-            randomSequence = generate_random_sequence()
+            randomSequence = randomised_data()
 
             # End the timer
             endTime = time.time()
