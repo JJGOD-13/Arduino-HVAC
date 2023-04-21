@@ -73,6 +73,10 @@ def main_menu():
                     break
 
             elif operation == "4":
+                print("\nExiting...\n")
+                print(5*"\n")
+                print("You have exited the program")
+                print("\n")
                 break
     except KeyboardInterrupt:
         print("\nExiting...\n")
