@@ -6,10 +6,13 @@ import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data
 
-# global variables
 temp = 25
-data = [22] 
-increasing = random.choice([True,False])
+
+"""
+main_menu()
+This function is called to access the fan operations polling loop, graph functions or to change the system settings.
+
+"""
 
 def main_menu():
     try:
@@ -76,10 +79,6 @@ def main_menu():
         print("\n")
         exit(0)
         
-
-
-def system_settings():
-    print(f"The current temperature of the room is set to {temp} degrees celcius.")
 
 if __name__ == "__main__":
     main_menu()
