@@ -1,3 +1,6 @@
+"""
+This file contains the graph() function that generates a graph of temperature against time and the randomised_data() function that adds a randomised temperature value to a data list
+"""
 import matplotlib.pyplot as plt
 import random
 import time
