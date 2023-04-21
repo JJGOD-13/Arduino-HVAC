@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data
 
+# global variables
 temp = 25
+data = [22] 
+increasing = random.choice([True,False])
 
 def main_menu():
     try:
