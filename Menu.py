@@ -8,7 +8,10 @@ from callback_functions import process_thermistor_data
 #import polling function
 #import pin function
 
+# Global variables
 temp = 25
+data = [22] 
+increasing = random.choice([True,False])
 
 """
 main_menu()
