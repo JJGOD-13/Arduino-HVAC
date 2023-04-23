@@ -19,6 +19,9 @@ def process_thermistor_data(data):
     OUTPUT: A list of average temperature values every second {tempEverySecond}
     
     DEPENDENCIES: math, require 2 variables called tempData = [] and tempEverySecond = [] to be defined globally
+
+    NOTE: This function still does some finicky stuff. It doesn't seem to properly break whenever a keyboard interrupt is called. 
+          I feel like this is because the function is called far to often. I'm not sure how to fix this.
     """
     #GLOBAL VARIABLES
     global tempData
@@ -30,7 +33,7 @@ def process_thermistor_data(data):
 
     if int(timeTaken) >= 1:
         avgTemp = sum(tempData[0]) / len(tempData)
-        avgTemp = round(((-21.21)*math.log(avgTemp/1000))+72.203, 2) # Well this is completley useless. No clue how to make this work 
+        avgTemp = round(((-21.21)*math.log(avgTemp/1000))+72.203, 2) # NOTE: Need to calibrrate this. Change the constants.
         tempEverySecond.append(avgTemp)
         tempData.clear()
 
