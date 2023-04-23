@@ -98,7 +98,7 @@ def polling_loop(data):
             # Return the data to the main menu
 
             returnData = randomSequence
-            print(returnData)
+            
             
 
         except KeyboardInterrupt:

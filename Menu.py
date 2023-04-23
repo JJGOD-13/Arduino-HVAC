@@ -51,6 +51,7 @@ def main_menu():
 
             #operation 2: Graphing
             elif operation == "2":
+                
                 graph(data)
                 continue
 
