@@ -7,30 +7,37 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-import random
 from Menu import main_menu
 from HVAC_graph import graph, randomised_data
-from callback_functions import process_thermistor_data
+from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 
 # Initialise the Arduino
 board = pymata4.Pymata4()
 
 
 # Callback data indices
-CB_PIN_MODE = 0
-CB_PIN = 1
-CB_VALUE = 2
-CB_TIME = 3
+callbackPinMode = 0
+callbackPin = 1
+callbackValue= 2
+callbackTime = 3
 
 
 # Initialise pins
-PIN_1 = 0
-PIN_2 = 1
+thermistorPin = 0
+fanPin = 1
+ledPin = 2
+displayPins = [] #TODO Will be a list of pins that will be used for the 7 segment display
 
-# Polling Loop Cycle Length
-# INPUT: Start and end values
-# OUTPUT: The amount of time in seconds that the polling cycle ran for
+#TODO Add more pins as we figure out where to place things
+
+
 def polling_loop_cycle_length(start, end):
+    """
+    Polling Loop Cycle Length
+    INPUT: Start and end values
+    OUTPUT: The amount of time in seconds that the polling cycle ran for
+    """
+
     # Check if the start and end values are integers
     try:
         start = int(str(start))  
@@ -62,35 +69,60 @@ def polling_loop_cycle_length(start, end):
     else:
         return round(cycleLength, 2)
     
-# Generate Random Sequence
-# INPUT: NOne
-# OUTPUT: A random sequence of values
+def polling_loop():
+    """
+    This function will run the polling loop
+    OUTPUL: returnData: [randomSequence, cycleLength]
+    """
+    while True:
+        try:
+            # Make the loop sleep every second to get the time correct 
+            
+            time.sleep(1)
 
+            # Start the timer
+            
+            startTime = time.time()
+
+            # Check if all componenets are working
+            
+            check_thermistor_operation(thermistorPin)
+            check_fan_operation(fanPin)
+
+            # Setup the pins
+            
+            board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+            
+
+            # Generate a random sequence
+            
+            randomSequence = randomised_data()
+
+            # End the timer
+            
+            endTime = time.time()
+
+            # Calculate the cycle length
+            
+            cycleLength = polling_loop_cycle_length(startTime, endTime)
+            print(f"Cycle Length: {cycleLength} seconds")
+
+            # Return the data to the main menu
+
+            returnData = [randomSequence, cycleLength]
+            return returnData
+
+
+
+            
+
+                
+        except KeyboardInterrupt:
+
+            main_menu()
 
 # Polling Loop
 
 if __name__ == "__main__":
 
-    while True:
-        try:
-            # Make the loop sleep every second to get the time correct #TODO
-            # Start the timer
-            startTime = time.time()
-
-            # Read the data from the sensors
-            temp = board.analog_read(PIN_1)
-
-            # Generate a random sequence
-            randomSequence = randomised_data()
-
-            # End the timer
-            endTime = time.time()
-
-            # Calculate the cycle length
-            cycleLength = polling_loop_cycle_length(startTime, endTime)
-            print(f"Cycle Length: {cycleLength} seconds")
-        
-        except KeyboardInterrupt:
-
-
-            main_menu()
+    polling_loop()
