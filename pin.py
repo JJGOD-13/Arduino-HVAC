@@ -1,8 +1,8 @@
 import time
-x=1234
-attempts=3
 
 def pin():
+    x=1234
+    attempts=3
     while True:
         try:
             while attempts>0:
