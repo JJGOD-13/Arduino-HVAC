@@ -6,7 +6,7 @@ def pin():
     while True:
         try:
             while attempts>0:
-                y=int(input('please enter the vald pin: '))
+                y=int(input('please enter the valid pin: '))
                 if y!=int(y) or len(str(y))!=4:
                     print('invalid pin. please enter a 4 digit number')
                     continue
