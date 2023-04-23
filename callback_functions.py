@@ -20,6 +20,10 @@ def process_thermistor_data(data):
     
     DEPENDENCIES: math, require 2 variables called tempData = [] and tempEverySecond = [] to be defined globally
     """
+    #GLOBAL VARIABLES
+    global tempData
+    global tempEverySecond
+
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
     print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
