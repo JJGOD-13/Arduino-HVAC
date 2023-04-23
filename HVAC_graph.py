@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import random
 import time
 
+
 #need to initialise as global variables
 data = [22] 
 increasing = random.choice([True,False])
@@ -17,22 +18,26 @@ def graph(temperatureValues: list):
 
     :return: None
     """
-    try:
-        timeValues = []
-        for n in range(1,21):
-            timeValues.append(n)
+    # NOTE: SOMETHING BUGGING !!!
+    # try:
+    timeValues = []
+    for n in range(1,21):
+        timeValues.append(n)
 
-        valuesToBeGraphed = temperatureValues[-20:]
+    valuesToBeGraphed = temperatureValues[-20:]
 
-        plt.plot(timeValues,valuesToBeGraphed)
-        plt.xlabel('Time(s)')
-        plt.ylabel('Temperature(°C)')
-        plt.title('Temperature vs Time')
-        plt.show()
-    except ValueError:
-        print("")
-        print("Not enough data to graph")
-        print("Please run the polling loop for at least 20s")
+    
+
+    plt.plot(valuesToBeGraphed)
+    plt.xlabel('Time(s)')
+    plt.ylabel('Temperature(°C)')
+    plt.title('Temperature vs Time')
+    plt.show()
+    
+    # # except ValueError:
+    #     print("")
+    #     print("Not enough data to graph")
+    #     print("Please run the polling loop for at least 20s")
 
 def randomised_data(data: list)-> list:
     """

@@ -53,7 +53,7 @@ def main_menu():
             elif operation == "2":
                 
                 graph(data)
-                continue
+                main_menu()
 
             #operation 3: System settings
             elif operation == "3":
