@@ -66,17 +66,7 @@ def main_menu():
                     except:
                         print("Please enter a valid integer value between 15 and 30.\n")
                 print(f"The new temperature is {temp} degrees celcius. \n")
-                while True:
-                    x = input("Would you like to return to the Main Menu (y/n): ")
-                    if x == "y" or x == "n":
-                        break
-                    else:
-                        print("Invalid input. Please try again.")
-                if x == "y":
-                    print("\nReturning to main menu... \n")
-                else:
-                    print("\nExiting...\n")
-                    break
+                
 
             elif operation == "4":
                 print("\nExiting...\n")
