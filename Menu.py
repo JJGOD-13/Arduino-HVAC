@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 import polling_loop
+from pin import pin
 #import polling function
 #import pin function
 
@@ -14,13 +15,14 @@ temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug t
 data = [22]
 increasing = random.choice([True,False])
 
-"""
-main_menu()
-This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
-"""
 
 def main_menu():
+    """
+    main_menu()
+    This function is called to access the fan operations polling loop, graph functions or to change the system settings.
+
+    """
     try:
         while True:
             #loop back to the main menu unless exited
@@ -55,6 +57,7 @@ def main_menu():
             #operation 3: System settings
             elif operation == "3":
                 #pin function
+                pin()
                 global temp
                 while True:
                     x = input(f"The current temperature is set to {temp} degrees celcius. Enter the new temperature value: ")
@@ -67,17 +70,7 @@ def main_menu():
                     except:
                         print("Please enter a valid integer value between 15 and 30.\n")
                 print(f"The new temperature is {temp} degrees celcius. \n")
-                while True:
-                    x = input("Would you like to return to the Main Menu (y/n): ")
-                    if x == "y" or x == "n":
-                        break
-                    else:
-                        print("Invalid input. Please try again.")
-                if x == "y":
-                    print("\nReturning to main menu... \n")
-                else:
-                    print("\nExiting...\n")
-                    break
+                
 
             elif operation == "4":
                 print("\nExiting...\n")
