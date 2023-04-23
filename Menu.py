@@ -15,13 +15,14 @@ temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug t
 data = [22]
 increasing = random.choice([True,False])
 
-"""
-main_menu()
-This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
-"""
 
 def main_menu():
+    """
+    main_menu()
+    This function is called to access the fan operations polling loop, graph functions or to change the system settings.
+
+    """
     try:
         while True:
             #loop back to the main menu unless exited
