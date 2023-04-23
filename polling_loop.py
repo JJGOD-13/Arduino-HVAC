@@ -8,11 +8,11 @@ This program will outline how the arduino will continuosly read data from the se
 import time
 from pymata4 import pymata4
 from Menu import main_menu
-from HVAC_graph import graph, randomised_data
+import HVAC_graph
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 
 # Initialise the Arduino
-board = pymata4.Pymata4()
+# board = pymata4.Pymata4()
 
 
 # Callback data indices
@@ -39,20 +39,7 @@ def polling_loop_cycle_length(start, end):
     """
 
     # Check if the start and end values are integers
-    try:
-        start = int(str(start))  
-    except ValueError:
-        print("Value isn't an integer")
-        exit(1) 
-    try:
-        end = int(str(end))  
-    except ValueError:
-        print("Value isn't an int")
-        exit(1)
-    # Check if the end value is greater than the start value
-    if not end > start:
-        print("End must be greater than start")
-        exit(1)
+   
 
     # Def the cycle length    
 
@@ -69,7 +56,7 @@ def polling_loop_cycle_length(start, end):
     else:
         return round(cycleLength, 2)
     
-def polling_loop():
+def polling_loop(data):
     """
     This function will run the polling loop
     OUTPUL: returnData: [randomSequence, cycleLength]
@@ -91,12 +78,12 @@ def polling_loop():
 
             # Setup the pins
             
-            board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+            # board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
             
 
             # Generate a random sequence
             
-            randomSequence = randomised_data()
+            randomSequence = HVAC_graph.randomised_data(data)
 
             # End the timer
             
