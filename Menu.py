@@ -4,13 +4,14 @@ from pymata4 import pymata4
 import random
 import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
-from callback_functions import process_thermistor_data
+from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+import polling_loop
 #import polling function
 #import pin function
 
 # Global variables
-temp = 25
-data = [22] 
+temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug this value into.
+data = [22]
 increasing = random.choice([True,False])
 
 """
@@ -40,8 +41,10 @@ def main_menu():
 
             #operation 1: Fan operations
             if operation == "1":
+                global data
                 #start polling loop
-                pass
+                data = polling_loop.polling_loop(data)
+                
 
             #operation 2: Graphing
             elif operation == "2":
