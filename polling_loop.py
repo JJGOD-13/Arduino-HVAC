@@ -61,6 +61,7 @@ def polling_loop(data):
     This function will run the polling loop
     OUTPUL: returnData: [randomSequence, cycleLength]
     """
+    returnData = []
     while True:
         try:
             # Make the loop sleep every second to get the time correct 
@@ -96,17 +97,13 @@ def polling_loop(data):
 
             # Return the data to the main menu
 
-            returnData = [randomSequence, cycleLength]
-            return returnData
-
-
-
+            returnData = randomSequence
+            print(returnData)
             
 
-                
         except KeyboardInterrupt:
-
-            main_menu()
+            return returnData
+            
 
 # Polling Loop
 

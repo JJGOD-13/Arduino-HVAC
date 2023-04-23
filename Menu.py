@@ -43,6 +43,7 @@ def main_menu():
             if operation == "1":
                 global data
                 #start polling loop
+                
                 data = polling_loop.polling_loop(data)
                 
 
