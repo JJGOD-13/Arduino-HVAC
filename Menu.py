@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 import polling_loop
-from Pin import pin
+from pin import pin
 #import polling function
 #import pin function
 
