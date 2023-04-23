@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 import polling_loop
+from Pin import pin
 #import polling function
 #import pin function
 
@@ -54,6 +55,7 @@ def main_menu():
             #operation 3: System settings
             elif operation == "3":
                 #pin function
+                pin()
                 global temp
                 while True:
                     x = input(f"The current temperature is set to {temp} degrees celcius. Enter the new temperature value: ")
