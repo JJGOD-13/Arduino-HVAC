@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 import random
 import time
 
+#need to initialise as global variables
+data = [22] 
+increasing = random.choice([True,False])
+
 def graph(temperatureValues: list):
     """
     This function generates a graph that plots temperature against time for the last 20s
@@ -13,17 +17,22 @@ def graph(temperatureValues: list):
 
     :return: None
     """
-    timeValues = []
-    for n in range(1,21):
-        timeValues.append(n)
+    try:
+        timeValues = []
+        for n in range(1,21):
+            timeValues.append(n)
 
-    valuesToBeGraphed = temperatureValues[-20:]
+        valuesToBeGraphed = temperatureValues[-20:]
 
-    plt.plot(timeValues,valuesToBeGraphed)
-    plt.xlabel('Time(s)')
-    plt.ylabel('Temperature(°C)')
-    plt.title('Temperature vs Time')
-    plt.show()
+        plt.plot(timeValues,valuesToBeGraphed)
+        plt.xlabel('Time(s)')
+        plt.ylabel('Temperature(°C)')
+        plt.title('Temperature vs Time')
+        plt.show()
+    except ValueError:
+        print("")
+        print("Not enough data to graph")
+        print("Please run the polling loop for at least 20s")
 
 def randomised_data(data: list)-> list:
     """
@@ -33,6 +42,7 @@ def randomised_data(data: list)-> list:
     
     :return: new list of data with added value
     """
+    global increasing
     increment = random.random()*0.1
           
     if random.random()<0.25: #less likelihood for temperature to stop increasing/decreasing and start decreasing/increasing
@@ -53,10 +63,6 @@ def randomised_data(data: list)-> list:
 
 if __name__ == '__main__':
     try:
-        #need to initialise as global variables
-        data = [22] 
-        increasing = random.choice([True,False])
-            
         while True:
             time.sleep(1)
             randomised_data(data)
