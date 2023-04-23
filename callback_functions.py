@@ -33,3 +33,17 @@ def process_thermistor_data(data):
         avgTemp = round(((-21.21)*math.log(avgTemp/1000))+72.203, 2) # Well this is completley useless. No clue how to make this work 
         tempEverySecond.append(avgTemp)
         tempData.clear()
+
+def check_thermistor_operation(thermistorPin):
+    """
+    This function will check if the thermistor is working properly
+
+    """
+    #TODO
+
+def check_fan_operation(fanPin):
+    """
+    This function will check if the fan is working properly
+
+    """
+    #TODO
