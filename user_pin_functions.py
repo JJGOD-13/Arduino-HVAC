@@ -23,62 +23,61 @@ def setup_user_pin():
             userPin = row[0]["Value"]
             specialPin = row[1]["Value"]
 
-        # Check if this is the first time that the user has run the program
-        if  int(str(userPin)) == 0:
-            # If this is the first time that the user has run the program, show the welcome message
-            print(4*"\n")
-            print("Please set your 4 digit pin \n")
+        
+    
+        # If this is the first time that the user has run the program, show the welcome message
+        print(4*"\n")
+        print("Please set your 4 digit pin \n")
 
 
 
-            # Ask the user to set their pin
-            while True:
-                try:
-                    userPin = int(input("Please enter your 4 digit pin: "))
-                    
-                    if len(str(userPin)) != 4:
-                        print("Your pin must be 4 digits long", end="\n\n")
-                        continue
-                    else:
-                        break
-                        
-                except ValueError:
-                    print("Please enter a valid 4 digit pin",end="\n\n")
-                    
-                    continue
-            
-            # Make sure the user is happy with their pin
-            print(2 * "\n")
-            print(f"Your pin has been set to {userPin}")
-            # if they aren't happy, ask them to set their pin again
-
-            if input("Are you happy with this pin? y/n: ") == "n":
-                print("Please set your pin again")
-                setup_user_pin()
-
-            # Set the pin in the csv file
-
-            with open("passcodes.csv") as file:
-                reader = csv.DictReader(file)
-                row = list(reader)
-                row[0]["Value"] = userPin
+        # Ask the user to set their pin
+        while True:
+            try:
+                userPin = int(input("Please enter your 4 digit pin: "))
                 
-                with open("passcodes.csv", "w") as file:
-                    fieldnames = ["Passcode", "Value"]
-                    writer = csv.DictWriter(file, fieldnames=fieldnames )
-                    writer.writeheader()
-                    writer.writerow(row[0])
-                    writer.writerow(row[1])
+                if len(str(userPin)) != 4:
+                    print("Your pin must be 4 digits long", end="\n\n")
+                    continue
+                else:
+                    break
+                    
+            except ValueError:
+                print("Please enter a valid 4 digit pin",end="\n\n")
+                
+                continue
+        
+        # Make sure the user is happy with their pin
+        print(2 * "\n")
+        print(f"Your pin has been set to {userPin}")
+        # if they aren't happy, ask them to set their pin again
+
+        if input("Are you happy with this pin? y/n: ") == "n":
+            print("Please set your pin again")
+            setup_user_pin()
+
+        # Set the pin in the csv file
+
+        with open("passcodes.csv") as file:
+            reader = csv.DictReader(file)
+            row = list(reader)
+            row[0]["Value"] = userPin
+            
+            with open("passcodes.csv", "w") as file:
+                fieldnames = ["Passcode", "Value"]
+                writer = csv.DictWriter(file, fieldnames=fieldnames )
+                writer.writeheader()
+                writer.writerow(row[0])
+                writer.writerow(row[1])
 
 
-            # Some more messages      
-            print("Thank you for setting your pin")
-            print("Remember you can change your pin at anytime through the settings menu \n")
-            file.close()
-            
-            
-        else:
-            return False
+        # Some more messages      
+        print("Thank you for setting your pin")
+        print("Remember you can change your pin at anytime through the settings menu \n")
+        file.close()
+        
+        
+        
 
 
 
@@ -145,7 +144,7 @@ def check_user_pin():
                 
 
             if int(tempPin) == int(specialPin):
-                print("You have entered the special pin")
+                print('\033[1;32;40m' + "You have entered the special pin" + '\033[0m')
                 # Easter Egg
                 return(1)
 
