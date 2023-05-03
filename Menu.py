@@ -1,14 +1,14 @@
+"""
+The main menu for the HVAC system. This menu allows the user to access the fan operations polling loop, graph functions or to change the system settings.
+"""
 
-import time
+
 from pymata4 import pymata4
 import random
-import matplotlib.pyplot as plt
-from HVAC_graph import graph, randomised_data
-from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+from HVAC_graph import graph
 import polling_loop
 from user_pin_functions import check_user_pin, setup_user_pin
-#import polling function
-#import pin function
+
 
 # Global variables
 temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug this value into.
