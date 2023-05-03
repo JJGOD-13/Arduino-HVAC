@@ -7,6 +7,7 @@ from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 import polling_loop
 from pin import pin
+from user_pin_functions import setup_user_pin, check_user_pin
 #import polling function
 #import pin function
 
@@ -23,6 +24,10 @@ def main_menu():
     This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
     """
+    while True:
+        if check_user_pin() == 1:
+            break
+        
     try:
         while True:
             #loop back to the main menu unless exited

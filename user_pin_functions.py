@@ -1,6 +1,6 @@
 # Author: Jayant Godse
 # Date: 18/04/2023
-# THis file contains the function for showing the system menu
+# THis file contains the function for setting up the user pin and changing it.
 
 import csv
 import time
@@ -27,7 +27,6 @@ def setup_user_pin():
         if  int(str(userPin)) == 0:
             # If this is the first time that the user has run the program, show the welcome message
             print(4*"\n")
-            print("Welcome to the Arduino HVAC System \n")
             print("Please set your 4 digit pin \n")
 
 
@@ -55,7 +54,7 @@ def setup_user_pin():
 
             if input("Are you happy with this pin? y/n: ") == "n":
                 print("Please set your pin again")
-                show_system_menu()
+                setup_user_pin()
 
             # Set the pin in the csv file
 
@@ -105,6 +104,9 @@ def check_user_pin():
         row = list(reader)
         userPin = row[0]["Value"]
         specialPin = row[1]["Value"]
+
+    if  int(str(userPin)) == 0:
+        setup_user_pin()
         
     while True:
         try:
@@ -137,7 +139,7 @@ def check_user_pin():
 
             elif tempPin == specialPin:
                 print("You have entered the special pin")
-                # show_special_message()
+                # Easter Egg
                 return(1)
 
             else:
@@ -151,7 +153,5 @@ def check_user_pin():
 
 
 if __name__ == "__main__":
-    setup_user_pin()
-
     check_user_pin()
     
