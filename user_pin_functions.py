@@ -74,8 +74,9 @@ def setup_user_pin():
             # Some more messages      
             print("Thank you for setting your pin")
             print("Remember you can change your pin at anytime through the settings menu \n")
-            print("Please enter your pin to continue")
-            return True
+            file.close()
+            
+            
         else:
             return False
 
@@ -90,26 +91,32 @@ def check_user_pin():
     DEPENDENCY: Requires a csv file called passcodes.csv to exist. 
                 Requires csv module imported.
 
-    #TODO:
-        - Add a shutdown function if the user enters the incorrect pin 3 times
-
+   
     """
     # set the incorrect pin count to 0
     incorrectPinCount = 0
     # Use the global variable for the user pin
     
     # Open the csv file and then read the data
+    
     with open("passcodes.csv") as file:
         reader = csv.DictReader(file)
         row = list(reader)
         userPin = row[0]["Value"]
         specialPin = row[1]["Value"]
+        
 
     if  int(str(userPin)) == 0:
-        setup_user_pin()
+        return False
         
     while True:
         try:
+            with open("passcodes.csv") as file:
+                reader = csv.DictReader(file)
+                row = list(reader)
+                userPin = row[0]["Value"]
+                specialPin = row[1]["Value"]
+
             if incorrectPinCount == 3: # Might need to put in a different function i.e shutdown() if this is the case #TODO
                 print("You have entered the incorrect pin 3 times")
                 time.sleep(0.2)
@@ -133,11 +140,11 @@ def check_user_pin():
                 exit(1)
             
             tempPin = int(input("Please enter your pin: "))
-            if tempPin == userPin:
+            if int(tempPin) == int(userPin):
                 return True
                 
 
-            elif tempPin == specialPin:
+            if int(tempPin) == int(specialPin):
                 print("You have entered the special pin")
                 # Easter Egg
                 return(1)

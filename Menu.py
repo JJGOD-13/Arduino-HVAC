@@ -7,7 +7,7 @@ from HVAC_graph import graph, randomised_data
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 import polling_loop
 from pin import pin
-from user_pin_functions import setup_user_pin, check_user_pin
+from user_pin_functions import check_user_pin, setup_user_pin
 #import polling function
 #import pin function
 
@@ -25,8 +25,12 @@ def main_menu():
 
     """
     while True:
-        if check_user_pin() == 1:
+        if check_user_pin() == False:
+            setup_user_pin()
+            continue
+        else:
             break
+        
         
     try:
         while True:
