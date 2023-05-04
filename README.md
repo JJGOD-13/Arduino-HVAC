@@ -6,3 +6,5 @@ HVAC system controlled with python and Pymata4
 In order to run the file. You must run Menu.py on the Arduino.
 
 user_pin_functions has replaces pin.py, thus the former is redundant but is still kept here
+
+Currently Broken. Please TEST YOUR CODE BEFORE COMMITING
