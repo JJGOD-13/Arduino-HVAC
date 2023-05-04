@@ -85,7 +85,7 @@ def polling_loop(data):
             # Setup the pins
             
             board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
-            print(f'The current temperature is: {tempEverySecond[-1]}°C')
+#             print(f'The current temperature is: {tempEverySecond[-1]}°C')
            
             # turning motor on and off
             #goal range = (23,27) --> goal temp is 25
