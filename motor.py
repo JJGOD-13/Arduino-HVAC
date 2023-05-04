@@ -1,8 +1,8 @@
 from pymata4 import pymata4
 
 
-in1 = 9 #pwm
-in2 = 10 #pwm
+fanPin1 = 5 #pwm
+fanPin2 = 6 #pwm
 
 board_motor = pymata4.Pymata4()
 
