@@ -119,24 +119,30 @@ def check_user_pin():
             if incorrectPinCount == 3: # Might need to put in a different function i.e shutdown() if this is the case #TODO
                 print("You have entered the incorrect pin 3 times")
                 time.sleep(0.2)
-                print("The system will now shut down")
-                time.sleep(0.2)
-                print("Your Pin will be erased")
-                userPin = 0
+                # print("The system will now shut down")
+                # time.sleep(0.2)
+                print("You will be locked out for 2 minutes")
+                for i in range(120,0,-1):
+                    if i % 10 == 0:
+                        print(f"Time remaining: {i} seconds")
+                    time.sleep(1)
+                print("You can now try again")
+                check_user_pin()
+                # userPin = 0
                 
                 # Erase the pin
-                with open("passcodes.csv") as file:
-                    reader = csv.DictReader(file)
-                    row = list(reader)
-                    row[0]["Value"] = userPin
+                # with open("passcodes.csv") as file:
+                #     reader = csv.DictReader(file)
+                #     row = list(reader)
+                #     row[0]["Value"] = userPin
                 
-                    with open("passcodes.csv", "w") as file:
-                        fieldnames = ["Passcode", "Value"]
-                        writer = csv.DictWriter(file, fieldnames=fieldnames )
-                        writer.writeheader()
-                        writer.writerow(row[0])
-                        writer.writerow(row[1])
-                exit(1)
+                #     with open("passcodes.csv", "w") as file:
+                #         fieldnames = ["Passcode", "Value"]
+                #         writer = csv.DictWriter(file, fieldnames=fieldnames )
+                #         writer.writeheader()
+                #         writer.writerow(row[0])
+                #         writer.writerow(row[1])
+                # exit(1)
             
             tempPin = int(input("Please enter your pin: "))
             if int(tempPin) == int(userPin):
