@@ -10,10 +10,14 @@ from pymata4 import pymata4
 from Menu import main_menu
 import HVAC_graph
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+from motor import control_motor
 
 # Initialise the Arduino
 # board = pymata4.Pymata4()
 
+# Global Variables
+tempData = []
+tempEverySecond = []
 
 # Callback data indices
 callbackPinMode = 0
@@ -24,7 +28,8 @@ callbackTime = 3
 
 # Initialise pins
 thermistorPin = 0
-fanPin = 1
+fanPin1 = 5
+fanPin2 = 6
 ledPin = 2
 displayPins = [] #TODO Will be a list of pins that will be used for the 7 segment display
 
@@ -79,9 +84,38 @@ def polling_loop(data):
 
             # Setup the pins
             
-            # board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
-            
-
+            board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+            print(f'The current temperature is: {tempEverySecond[-1]}°C')
+           
+            # turning motor on and off
+            #goal range = (23,27) --> goal temp is 25
+            if tempEverySecond < temp-2: #too cold
+                direction = 'clockwise'
+                if (temp-2) - tempEverySecond  <1:
+                    speed = 100
+                    print('Fan set to low speed and moving heat into room') 
+                elif (temp-2) - tempEverySecond <3:
+                    speed = 150
+                    print('Fan set to medium speed and moving heat into room') 
+                elif (temp-2) - tempEverySecond >5:
+                    speed = 200
+                    print('Fan set to high speed and moving heat into room') 
+            elif tempEverySecond > temp+2: #too hot
+                direction = 'anticlockwise'
+                if tempEverySecond - (temp+2) <1:
+                    speed = 100
+                    print('Fan set to low speed and moving heat out of room') 
+                elif tempEverySecond - (temp+2) <3:
+                    speed = 150
+                    print('Fan set to medium speed and moving heat out of room') 
+                elif tempEverySecond - (temp+2) >5:
+                    speed = 200
+                    print('Fan set to high speed and moving heat out of room') 
+             else:           
+                speed = 0
+                
+            control_motor(direction,speed)
+               
             # Generate a random sequence
             
             randomSequence = HVAC_graph.randomised_data(data)
