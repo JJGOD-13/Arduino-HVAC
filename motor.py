@@ -24,8 +24,5 @@ def control_motor(direction,speed):
         board_motor.pwm_write(in1,speed)
         board_motor.pwm_write(in2,0)
 
-def turn_motor_off():
-    board_motor.pwm_write(in1,0)
-    board_motor.pwm_write(in2,0)
 
             
