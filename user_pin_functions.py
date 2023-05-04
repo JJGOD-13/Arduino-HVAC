@@ -116,12 +116,14 @@ def check_user_pin():
                 userPin = row[0]["Value"]
                 specialPin = row[1]["Value"]
 
-            if incorrectPinCount == 3: # Might need to put in a different function i.e shutdown() if this is the case #TODO
+            if incorrectPinCount == 3: 
                 print("You have entered the incorrect pin 3 times")
                 time.sleep(0.2)
                 # print("The system will now shut down")
                 # time.sleep(0.2)
                 print("You will be locked out for 2 minutes")
+
+                # Lock out the person for 2 minutes
                 for i in range(120,0,-1):
                     if i % 10 == 0:
                         print(f"Time remaining: {i} seconds")
@@ -129,7 +131,9 @@ def check_user_pin():
                 print("You can now try again")
                 check_user_pin()
                 # userPin = 0
-                
+                """
+                NOTE: This is commented out because it will erase the pin
+
                 # Erase the pin
                 # with open("passcodes.csv") as file:
                 #     reader = csv.DictReader(file)
@@ -143,6 +147,7 @@ def check_user_pin():
                 #         writer.writerow(row[0])
                 #         writer.writerow(row[1])
                 # exit(1)
+                """
             
             tempPin = int(input("Please enter your pin: "))
             if int(tempPin) == int(userPin):
