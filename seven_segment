@@ -37,7 +37,7 @@ def seven_segment(message):
                               }
     messageList=[]
     for j in message:
-        messageList.append(j)
+        messageList.append(j) 
     for k in range(0,5):
         messageList.append("")
 
