@@ -20,8 +20,8 @@ def control_motor():
                 board.digital_write(5,0)
                 board.digital_write(6,0)
             if aveTemp >= temp + 2:
+                
                 print("Temperature recorded is more than the goal, direction of fan is set to move heat out of the room")
-
         except KeyboardInterrupt:
             board.shutdown
             quit()
