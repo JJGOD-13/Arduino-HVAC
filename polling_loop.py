@@ -7,18 +7,15 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp, tempData, tempEverySecond
+from Menu import temp, tempData, tempEverySecond 
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 from motor import control_motor
-import display
+
 
 # Initialise the Arduino
 board = pymata4.Pymata4()
 
-# Global Variables
-tempData = []
-tempEverySecond = []
-rateOfChange = []
+
 
 
 # Callback data indices
@@ -33,7 +30,7 @@ thermistorPin = 1
 fanPin1 = 5
 fanPin2 = 6
 ledPin = 2
-displayPins = [] #TODO Will be a list of pins that will be used for the 7 segment display
+
 
 
 

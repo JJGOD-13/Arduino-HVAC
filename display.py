@@ -7,6 +7,7 @@ It will make use of the ability of shift registers in order to do this.
 
 from pymata4 import pymata4
 import time
+from Menu import board
 
 # PINS
 
@@ -71,7 +72,7 @@ numbers = {
     }
 
 # Create a pymata4 instance
-board = pymata4.Pymata4()
+# board = pymata4.Pymata4()
 
 # Set the pin modes
 board.set_pin_mode_digital_output(latchPin)

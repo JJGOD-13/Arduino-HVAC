@@ -10,10 +10,7 @@ import polling_loop
 from user_pin_functions import check_user_pin, setup_user_pin
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 
-# Define board and variables
-# board = pymata4.Pymata4()
-# thermistorPin = 2 # Analog Pin
-# pollTime = 1
+
 
 # Global variables
 temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug this value into.
@@ -30,6 +27,7 @@ def main_menu():
     This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
     """
+    global tempEverySecond
     while True:
         if check_user_pin() == False:
             setup_user_pin()
