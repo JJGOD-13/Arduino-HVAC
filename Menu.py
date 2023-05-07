@@ -18,6 +18,7 @@ data = [22]
 increasing = random.choice([True,False])
 tempData = []
 tempEverySecond = []
+rateOfChange = []
 
 
 
