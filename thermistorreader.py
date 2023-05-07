@@ -5,7 +5,7 @@ import math
 
 # Define board and variables
 board = pymata4.Pymata4()
-thermistorPin = 2 # Analog Pin
+thermistorPin = 1 # Analog Pin
 pollTime = 1
 
 # Global Variable 
@@ -22,11 +22,12 @@ def process_thermistor_data(data):
     """
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
-    print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
+    
 
     if int(timeTaken) >= 1:
         avgTemp = sum(tempData[0]) / len(tempData)
-        avgTemp = round(((-21.21)*math.log(avgTemp/1000))+72.203, 2) # Well this is completley useless. No clue how to make this work 
+        avgTemp = round((-2*math.log(avgTemp/100))+42.203, 2) # Well this is completley useless. No clue how to make this work 
+        print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)}, avgTemp = {avgTemp}')
         tempEverySecond.append(avgTemp)
         tempData.clear()
 

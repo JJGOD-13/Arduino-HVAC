@@ -4,10 +4,10 @@
 # Import the required libraries
 import time
 from pymata4 import pymata4
-import random
 import math
-from Menu import tempData, tempEverySecond
-from polling_loop import board
+
+
+
 
 
 # Thermistor Callback Function
@@ -26,8 +26,7 @@ def process_thermistor_data(data):
           I feel like this is because the function is called far to often. I'm not sure how to fix this.
     """
     #GLOBAL VARIABLES
-    global tempData
-    global tempEverySecond
+    from polling_loop import tempEverySecond, tempData
 
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
@@ -44,6 +43,7 @@ def check_thermistor_operation(thermistorPin):
     This function will check if the thermistor is working properly
 
     """
+    from polling_loop import board
     # Check if pin works otherwise send potential solution and shutdown board properly
     try:
         board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
@@ -61,6 +61,7 @@ def check_fan_operation(fanPin1, fanPin2):
     This function will check if the fan is working properly
 
     """
+    from polling_loop import board
     # Check if pin works otherwise send potential solution and shutdown board properly
     try:
         board.set_pin_mode_analog_input(fanPin1, process_thermistor_data)

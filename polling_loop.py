@@ -7,7 +7,7 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp
+from Menu import temp, tempData, tempEverySecond
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 from motor import control_motor
 
@@ -17,7 +17,7 @@ board = pymata4.Pymata4()
 # Global Variables
 tempData = []
 tempEverySecond = []
-global temp
+
 
 # Callback data indices
 callbackPinMode = 0
@@ -33,7 +33,7 @@ fanPin2 = 6
 ledPin = 2
 displayPins = [] #TODO Will be a list of pins that will be used for the 7 segment display
 
-#TODO Add more pins as we figure out where to place things
+
 
 
 def polling_loop_cycle_length(start, end):
@@ -66,7 +66,26 @@ def polling_loop(data):
     This function will run the polling loop
     OUTPUT: returnData: [tempEverySecond, cycleLength]
     """
-    returnData = []
+    # USE THE GLOBAL TEMP VALUE FROM THE MENU FILE
+    global temp 
+    global tempData
+    global tempEverySecond
+
+    # =======================================
+    # Polling Loop
+    # =======================================
+
+    # Check if all componenets are working
+            
+    check_thermistor_operation(thermistorPin)
+    check_fan_operation(fanPin1, fanPin2)
+
+
+    # Setup the pins
+            
+    board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+    # board.set_pin_mode_digital_output(fanPin1)
+    # board.set_pin_mode_digital_output(fanPin2)
     while True:
         try:
             # Make the loop sleep every second to get the time correct 
@@ -77,17 +96,12 @@ def polling_loop(data):
             
             startTime = time.time()
 
-            # Check if all componenets are working
-            
-            check_thermistor_operation(thermistorPin)
-            check_fan_operation(fanPin1, fanPin2)
-
-            # Setup the pins
-            
-            board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
-#             print(f'The current temperature is: {tempEverySecond[-1]}°C')
            
-            # turning motor on and off
+            # =======================================
+            # MOTOR CONTROL
+            # =======================================
+
+
             #goal range = (23,27) --> goal temp is 25
             if tempEverySecond < temp-2: #too cold
                 direction = 'clockwise'
@@ -124,8 +138,14 @@ def polling_loop(data):
             # Calculate the cycle length
             
             cycleLength = polling_loop_cycle_length(startTime, endTime)
+
+            # =======================================
+            # PRINT STATEMENTS
+            # =======================================
+
+            
             print(f"Cycle Length: {cycleLength} seconds")
-            print(f"Temperature: {tempEverySecond[-1]}°C")
+            print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
 
             # Return the data to the main menu
 

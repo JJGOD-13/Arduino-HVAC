@@ -6,10 +6,10 @@ fanPin2 = 6 #pwm
 
 board_motor = pymata4.Pymata4()
 
-board_motor.set_pin_mode_pwm_output(in1)
-board_motor.set_pin_mode_pwm_output(in2)
+board_motor.set_pin_mode_pwm_output(fanPin1)
+board_motor.set_pin_mode_pwm_output(fanPin2)
 
-def control_motor(direction = 'clockwise',speed): 
+def control_motor(speed, direction = 'clockwise'): 
     """
     This function turns on the motor to a given speed and direction
 
@@ -18,11 +18,11 @@ def control_motor(direction = 'clockwise',speed):
     :return: None
     """
     if direction == 'clockwise':
-        board_motor.pwm_write(in1,speed)
-        board_motor.pwm_write(in2,0)
+        board_motor.pwm_write(fanPin1,speed)
+        board_motor.pwm_write(fanPin2,0)
     if direction == 'anticlockwise':
-        board_motor.pwm_write(in1,speed)
-        board_motor.pwm_write(in2,0)
+        board_motor.pwm_write(fanPin1,speed)
+        board_motor.pwm_write(fanPin2,0)
 
 
             

@@ -11,9 +11,9 @@ from user_pin_functions import check_user_pin, setup_user_pin
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 
 # Define board and variables
-board = pymata4.Pymata4()
-thermistorPin = 2 # Analog Pin
-pollTime = 1
+# board = pymata4.Pymata4()
+# thermistorPin = 2 # Analog Pin
+# pollTime = 1
 
 # Global variables
 temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug this value into.
