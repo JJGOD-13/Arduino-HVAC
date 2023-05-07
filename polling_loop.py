@@ -111,7 +111,8 @@ def polling_loop(data):
                 elif tempEverySecond - (temp+2) >5:
                     speed = 200
                     print('Fan set to high speed and moving heat out of room') 
-            else:           
+            else:
+                direction = 'clockwise'
                 speed = 0
                 
             control_motor(direction,speed)
