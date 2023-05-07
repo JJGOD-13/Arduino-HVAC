@@ -6,6 +6,8 @@ import time
 from pymata4 import pymata4
 import random
 import math
+from Menu import tempData, tempEverySecond
+from polling_loop import board
 
 
 # Thermistor Callback Function
@@ -33,7 +35,7 @@ def process_thermistor_data(data):
 
     if int(timeTaken) >= 1:
         avgTemp = sum(tempData[0]) / len(tempData)
-        avgTemp = round(((-21.21)*math.log(avgTemp/1000))+72.203, 2) # NOTE: Need to calibrrate this. Change the constants.
+        avgTemp = round((-2*math.log(avgTemp/100))+42.203, 2) # NOTE: Need to calibrrate this. Change the constants.
         tempEverySecond.append(avgTemp)
         tempData.clear()
 
@@ -42,11 +44,31 @@ def check_thermistor_operation(thermistorPin):
     This function will check if the thermistor is working properly
 
     """
-    #TODO
+    # Check if pin works otherwise send potential solution and shutdown board properly
+    try:
+        board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+        print("Thermistor is working properly")
+        
+    except:
+        print('\033[1;32;40m' + "Thermistor is not working properly" + '\033[0m')
+        print("Try checking the pin and connections")
+        board.shutdown()
+        exit(1)
 
-def check_fan_operation(fanPin):
+
+def check_fan_operation(fanPin1, fanPin2):
     """
     This function will check if the fan is working properly
 
     """
-    #TODO
+    # Check if pin works otherwise send potential solution and shutdown board properly
+    try:
+        board.set_pin_mode_analog_input(fanPin1, process_thermistor_data)
+        board.set_pin_mode_analog_input(fanPin2, process_thermistor_data)
+        print("Thermistor is working properly")
+        
+    except:
+        print('\033[1;32;40m' + "Fan is not working properly" + '\033[0m')
+        print("Try checking the pin and connections")
+        board.shutdown()
+        exit(1)
