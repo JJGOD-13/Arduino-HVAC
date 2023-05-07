@@ -84,8 +84,7 @@ def polling_loop(data):
     # Setup the pins
             
     board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
-    # board.set_pin_mode_digital_output(fanPin1)
-    # board.set_pin_mode_digital_output(fanPin2)
+
     while True:
         try:
             # Make the loop sleep every second to get the time correct 
@@ -104,33 +103,36 @@ def polling_loop(data):
 
 
             #goal range = (23,27) --> goal temp is 25
-            if tempEverySecond < temp-2: #too cold
-                direction = 'clockwise'
-                if (temp-2) - tempEverySecond  <1:
-                    speed = 100
-                    print('Fan set to low speed and moving heat into room') 
-                elif (temp-2) - tempEverySecond <3:
-                    speed = 150
-                    print('Fan set to medium speed and moving heat into room') 
-                elif (temp-2) - tempEverySecond >5:
-                    speed = 200
-                    print('Fan set to high speed and moving heat into room') 
-            elif tempEverySecond > temp+2: #too hot
-                direction = 'anticlockwise'
-                if tempEverySecond - (temp+2) <1:
-                    speed = 100
-                    print('Fan set to low speed and moving heat out of room') 
-                elif tempEverySecond - (temp+2) <3:
-                    speed = 150
-                    print('Fan set to medium speed and moving heat out of room') 
-                elif tempEverySecond - (temp+2) >5:
-                    speed = 200
-                    print('Fan set to high speed and moving heat out of room') 
-            else:
-                direction = 'clockwise'
-                speed = 0
-                
-            control_motor(board,direction,speed)
+            
+            if len(tempEverySecond) >= 1:
+                current_temp = tempEverySecond[-1]
+                if current_temp < temp-2: #too cold
+                    direction = 'clockwise'
+                    if (temp-2) - current_temp  <1:
+                        speed = 100
+                        print('Fan set to low speed and moving heat into room') 
+                    elif (temp-2) - current_temp <3:
+                        speed = 150
+                        print('Fan set to medium speed and moving heat into room') 
+                    elif (temp-2) - current_temp >5:
+                        speed = 200
+                        print('Fan set to high speed and moving heat into room') 
+                elif current_temp > temp+2: #too hot
+                    direction = 'anticlockwise'
+                    if current_temp - (temp+2) <1:
+                        speed = 100
+                        print('Fan set to low speed and moving heat out of room') 
+                    elif current_temp - (temp+2) <3:
+                        speed = 150
+                        print('Fan set to medium speed and moving heat out of room') 
+                    elif current_temp - (temp+2) >5:
+                        speed = 200
+                        print('Fan set to high speed and moving heat out of room') 
+                else:
+                    direction = 'clockwise'
+                    speed = 0
+                    
+                control_motor(direction,speed)
 
 
             # End the timer
@@ -144,18 +146,17 @@ def polling_loop(data):
             # =======================================
             # PRINT STATEMENTS
             # =======================================
-
-            
+          
             print(f"Cycle Length: {cycleLength} seconds")
-            print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
+            if len(tempEverySecond)>=1:
+                print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
 
             # Return the data to the main menu
 
-            returnData = {tempEverySecond, cycleLength}
+            returnData = [tempEverySecond, cycleLength]
             
-            
-
         except KeyboardInterrupt:
+            control_motor()
             return returnData
             
 
