@@ -18,11 +18,11 @@ def control_motor(direction = 'clockwise',speed = 0):
     :return: None
     """
     if direction == 'clockwise':
-        board_motor.pwm_write(in1,speed)
-        board_motor.pwm_write(in2,0)
+        board_motor.pwm_write(fanPin1,speed)
+        board_motor.pwm_write(fanPin2,0)
     if direction == 'anticlockwise':
-        board_motor.pwm_write(in1,speed)
-        board_motor.pwm_write(in2,0)
+        board_motor.pwm_write(fanPin1,speed)
+        board_motor.pwm_write(fanPin2,0)
 
 
             
