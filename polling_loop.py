@@ -7,17 +7,17 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import main_menu
-import HVAC_graph
+from Menu import temp
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 from motor import control_motor
 
 # Initialise the Arduino
-# board = pymata4.Pymata4()
+board = pymata4.Pymata4()
 
 # Global Variables
 tempData = []
 tempEverySecond = []
+global temp
 
 # Callback data indices
 callbackPinMode = 0
@@ -64,7 +64,7 @@ def polling_loop_cycle_length(start, end):
 def polling_loop(data):
     """
     This function will run the polling loop
-    OUTPUL: returnData: [randomSequence, cycleLength]
+    OUTPUT: returnData: [tempEverySecond, cycleLength]
     """
     returnData = []
     while True:
@@ -80,7 +80,7 @@ def polling_loop(data):
             # Check if all componenets are working
             
             check_thermistor_operation(thermistorPin)
-            check_fan_operation(fanPin)
+            check_fan_operation(fanPin1, fanPin2)
 
             # Setup the pins
             
@@ -111,14 +111,11 @@ def polling_loop(data):
                 elif tempEverySecond - (temp+2) >5:
                     speed = 200
                     print('Fan set to high speed and moving heat out of room') 
-             else:           
-                speed = 0
+                else:           
+                    speed = 0
                 
             control_motor(direction,speed)
-               
-            # Generate a random sequence
-            
-            randomSequence = HVAC_graph.randomised_data(data)
+        
 
             # End the timer
             
@@ -128,10 +125,11 @@ def polling_loop(data):
             
             cycleLength = polling_loop_cycle_length(startTime, endTime)
             print(f"Cycle Length: {cycleLength} seconds")
+            print(f"Temperature: {tempEverySecond[-1]}°C")
 
             # Return the data to the main menu
 
-            returnData = randomSequence
+            returnData = {tempEverySecond, cycleLength}
             
             
 
