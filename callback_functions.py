@@ -27,6 +27,7 @@ def process_thermistor_data(data):
     """
     #GLOBAL VARIABLES
     from polling_loop import tempEverySecond, tempData
+    
 
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
@@ -43,6 +44,7 @@ def check_thermistor_operation(thermistorPin):
     This function will check if the thermistor is working properly
 
     """
+    from Menu import main_menu
     from polling_loop import board
     # Check if pin works otherwise send potential solution and shutdown board properly
     try:
@@ -53,7 +55,7 @@ def check_thermistor_operation(thermistorPin):
         print('\033[1;32;40m' + "Thermistor is not working properly" + '\033[0m')
         print("Try checking the pin and connections")
         board.shutdown()
-        exit(1)
+        main_menu()
 
 
 def check_fan_operation(fanPin1, fanPin2):
@@ -61,15 +63,16 @@ def check_fan_operation(fanPin1, fanPin2):
     This function will check if the fan is working properly
 
     """
+    from Menu import main_menu
     from polling_loop import board
     # Check if pin works otherwise send potential solution and shutdown board properly
     try:
-        board.set_pin_mode_analog_input(fanPin1, process_thermistor_data)
-        board.set_pin_mode_analog_input(fanPin2, process_thermistor_data)
+        board.set_pin_mode_digital_output(fanPin1, process_thermistor_data)
+        board.set_pin_mode_digital_output(fanPin2, process_thermistor_data)
         print("Thermistor is working properly")
         
     except:
         print('\033[1;32;40m' + "Fan is not working properly" + '\033[0m')
         print("Try checking the pin and connections")
         board.shutdown()
-        exit(1)
+        main_menu()
