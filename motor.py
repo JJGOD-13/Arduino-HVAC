@@ -9,7 +9,7 @@ board_motor = pymata4.Pymata4()
 board_motor.set_pin_mode_pwm_output(in1)
 board_motor.set_pin_mode_pwm_output(in2)
 
-def control_motor(direction = 'clockwise',speed = 100): 
+def control_motor(direction = 'clockwise',speed = 0): 
     """
     This function turns on the motor to a given speed and direction
 
