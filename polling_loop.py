@@ -153,9 +153,9 @@ def polling_loop(data):
             print(f"Cycle Length: {cycleLength} seconds")
             if len(tempEverySecond)>=1:
                 print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
-                print(f"Rate of Change: {rateOfChange}°C/time")
-
-
+            if len(rateOfChange)>=1:    
+                print(f"Rate of Change: {rateOfChange[-1]}°C/time")
+                      
             # Return the data to the main menu
 
             returnData = [tempEverySecond, cycleLength]
