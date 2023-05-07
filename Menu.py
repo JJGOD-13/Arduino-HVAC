@@ -67,7 +67,7 @@ def main_menu():
             # operation 2: Graphing
             elif operation == "2":
                 
-                graph(data)
+                graph(data[0][-20:]) 
                 main_menu()
 
             # operation 3: System settings
