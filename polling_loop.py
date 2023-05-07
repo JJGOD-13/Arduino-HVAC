@@ -27,7 +27,7 @@ callbackTime = 3
 
 
 # Initialise pins
-thermistorPin = 0
+thermistorPin = 1
 fanPin1 = 5
 fanPin2 = 6
 ledPin = 2
@@ -85,7 +85,8 @@ def polling_loop(data):
             # Setup the pins
             
             board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
-#             print(f'The current temperature is: {tempEverySecond[-1]}°C')
+            board.set_pin_mode_pwm_output(fanPin1)
+            board.set_pin_mode_pwm_output(fanPin2)
            
             # turning motor on and off
             #goal range = (23,27) --> goal temp is 25
@@ -115,7 +116,7 @@ def polling_loop(data):
                 direction = 'clockwise'
                 speed = 0
                 
-            control_motor(direction,speed)
+            control_motor(board,direction,speed)
                
             # Generate a random sequence
             
