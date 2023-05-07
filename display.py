@@ -118,7 +118,7 @@ def print_number_1to10():
         time.sleep(1)
  
 
-def printnumber():
+def print_number():
     number = chars["A"]
 
     for j in range(len(number)):
@@ -135,9 +135,9 @@ def printnumber():
     board.digital_write(latchPin, 1)
     board.digital_write(latchPin, 0)
 
-print_number_1to10()
 
-def showchar(char):
+
+def show_char(char):
     """
     This function will show a character on the 7 segment display
     INPUT: char - the character to be displayed
@@ -166,7 +166,7 @@ def showchar(char):
     board.digital_write(latchPin, 1)
     board.digital_write(latchPin, 0)
 
-def showword(word):
+def show_word(word):
     """
     This function will show a word on the 7 segment display
     INPUT: word - the word to be displayed
@@ -175,7 +175,7 @@ def showword(word):
     # Loop through the characters in the word
     for i in range(len(word)):
         # Show the current character
-        showchar(word[i])
+        show_char(word[i])
 
         # Wait 1 second
         time.sleep(1)

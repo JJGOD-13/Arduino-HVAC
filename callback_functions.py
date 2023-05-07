@@ -26,7 +26,9 @@ def process_thermistor_data(data):
           I feel like this is because the function is called far to often. I'm not sure how to fix this.
     """
     #GLOBAL VARIABLES
-    from polling_loop import tempEverySecond, tempData
+    from polling_loop import tempEverySecond, tempData, rateOfChange
+
+    rateOfChangeFactor = 5
     
 
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
@@ -35,9 +37,12 @@ def process_thermistor_data(data):
 
     if int(timeTaken) >= 1:
         avgTemp = sum(tempData[0]) / len(tempData)
-        avgTemp = round((-2*math.log(avgTemp/100))+42.203, 2) # NOTE: Need to calibrrate this. Change the constants.
+        avgTemp = round((-2*math.log(avgTemp/100))+42.203, 2) # NOTE: Equation for the thermistor tuning.
         tempEverySecond.append(avgTemp)
         tempData.clear()
+        if len(tempEverySecond) >= rateOfChangeFactor:
+            roc = sum(tempEverySecond[-rateOfChangeFactor:])/rateOfChangeFactor
+            rateOfChange.append(roc)
 
 def check_thermistor_operation(thermistorPin):
     """

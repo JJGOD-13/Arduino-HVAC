@@ -10,6 +10,7 @@ from pymata4 import pymata4
 from Menu import temp, tempData, tempEverySecond
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
 from motor import control_motor
+import display
 
 # Initialise the Arduino
 board = pymata4.Pymata4()
@@ -17,6 +18,7 @@ board = pymata4.Pymata4()
 # Global Variables
 tempData = []
 tempEverySecond = []
+rateOfChange = []
 
 
 # Callback data indices
@@ -88,12 +90,16 @@ def polling_loop(data):
     while True:
         try:
             # Make the loop sleep every second to get the time correct 
-            
+            # display.show_word("HI")
+
             time.sleep(1)
 
             # Start the timer
             
             startTime = time.time()
+            
+
+            # display.show_word("    ")
 
 
            
