@@ -41,8 +41,8 @@ def process_thermistor_data(data):
         tempEverySecond.append(avgTemp)
         tempData.clear()
         if len(tempEverySecond) >= rateOfChangeFactor:
-            roc = sum(tempEverySecond[-rateOfChangeFactor:])/rateOfChangeFactor
-            rateOfChange.append(roc)
+            roc = (tempEverySecond[-1]-tempEverySecond[-5])/rateOfChangeFactor
+            rateOfChange.append(round(roc,3))
 
 def check_thermistor_operation(thermistorPin):
     """
