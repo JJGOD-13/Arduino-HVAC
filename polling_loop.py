@@ -27,7 +27,7 @@ callbackTime = 3
 
 
 # Initialise pins
-thermistorPin = 0
+thermistorPin = 1
 fanPin1 = 5
 fanPin2 = 6
 ledPin = 2
@@ -125,11 +125,15 @@ def polling_loop(data):
                 elif tempEverySecond - (temp+2) >5:
                     speed = 200
                     print('Fan set to high speed and moving heat out of room') 
-                else:           
-                    speed = 0
+            else:
+                direction = 'clockwise'
+                speed = 0
                 
-            control_motor(direction,speed)
-        
+            control_motor(board,direction,speed)
+               
+            # Generate a random sequence
+            
+            randomSequence = HVAC_graph.randomised_data(data)
 
             # End the timer
             
