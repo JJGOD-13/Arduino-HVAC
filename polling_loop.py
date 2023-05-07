@@ -131,10 +131,7 @@ def polling_loop(data):
                 speed = 0
                 
             control_motor(board,direction,speed)
-               
-            # Generate a random sequence
-            
-            randomSequence = HVAC_graph.randomised_data(data)
+
 
             # End the timer
             
