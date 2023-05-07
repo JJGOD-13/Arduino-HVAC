@@ -33,7 +33,7 @@ def process_thermistor_data(data):
 
     tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
-    print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
+    # print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
 
     if int(timeTaken) >= 1:
         avgTemp = sum(tempData[0]) / len(tempData)
@@ -72,9 +72,9 @@ def check_fan_operation(fanPin1, fanPin2):
     from polling_loop import board
     # Check if pin works otherwise send potential solution and shutdown board properly
     try:
-        board.set_pin_mode_digital_output(fanPin1, process_thermistor_data)
-        board.set_pin_mode_digital_output(fanPin2, process_thermistor_data)
-        print("Thermistor is working properly")
+        board.set_pin_mode_digital_output(fanPin1)
+        board.set_pin_mode_digital_output(fanPin2)
+        print("Fan is working properly")
         
     except:
         print('\033[1;32;40m' + "Fan is not working properly" + '\033[0m')
