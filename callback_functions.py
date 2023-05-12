@@ -30,14 +30,20 @@ def process_thermistor_data(data):
 
     rateOfChangeFactor = 5
     
-
-    tempData.append([data[2],data[3]]) # data is the Raw data from Thermistor
+    tempData.append([data[2]*(5/1023),data[3]]) # data is the Raw data from Thermistor
     timeTaken = data[3] - tempData[0][1]
     # print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
 
     if int(timeTaken) >= 1:
-        avgTemp = sum(tempData[0]) / len(tempData)
-        avgTemp = round((-2*math.log(avgTemp/100))+42.203, 2) # NOTE: Equation for the thermistor tuning.
+        #calculating average voltage reading in V   
+        sum = 0
+        for data in tempData:
+            sum+=data[0]
+        avgVol = (sum / len(tempData))
+        #calculating resistance of thermistor via voltage divider in Kilo ohms
+        resistance = ((5100*avgVol)/(5-avgVol))/1000
+        #converting resistance to degrees celsius
+        avgTemp = round((-21.21*math.log(resistance))+72.203, 2) 
         tempEverySecond.append(avgTemp)
         tempData.clear()
         if len(tempEverySecond) >= rateOfChangeFactor:
