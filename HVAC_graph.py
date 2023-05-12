@@ -25,13 +25,18 @@ def graph(temperatureValues: list):
         timeValues.append(n)
 
     valuesToBeGraphed = temperatureValues[-20:]
-
+   
+    current_time = time.localtime() 
+    time_string = time.strftime("%H;%M_%d-%m-%Y", current_time)
     
-
     plt.plot(valuesToBeGraphed)
     plt.xlabel('Time(s)')
     plt.ylabel('Temperature(°C)')
     plt.title('Temperature vs Time')
+    
+    file_name = f'TempGraph_{time_string}.png'
+    plt.savefig(file_name)
+    
     plt.show()
     
     # # except ValueError:
