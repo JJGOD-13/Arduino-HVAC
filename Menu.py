@@ -29,12 +29,7 @@ def main_menu():
 
     """
     global tempEverySecond
-    while True:
-        if check_user_pin() == False:
-            setup_user_pin()
-            continue
-        else:
-            break
+    
         
         
     try:
