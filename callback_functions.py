@@ -1,10 +1,9 @@
 # Author: Jayant Godse
 # Usage: This file will contain the callback functions that will be used in the polling loop
 
-# Import the required libraries
-import time
-from pymata4 import pymata4
-import math
+
+
+
 
 
 
@@ -22,26 +21,30 @@ def process_thermistor_data(data):
     
     DEPENDENCIES: math, require 2 variables called tempData = [] and tempEverySecond = [] to be defined globally
 
-    NOTE: This function still does some finicky stuff. It doesn't seem to properly break whenever a keyboard interrupt is called. 
-          I feel like this is because the function is called far to often. I'm not sure how to fix this.
     """
     #GLOBAL VARIABLES
     from polling_loop import tempEverySecond, tempData, rateOfChange
 
+    # IMPORTS
+    import math
+    from pymata4 import pymata4
+
     rateOfChangeFactor = 5
     
-    tempData.append([data[2]*(5/1023),data[3]]) # data is the Raw data from Thermistor
-    timeTaken = data[3] - tempData[0][1]
-    # print(f'value = {tempData[-1][0]}, time = {round(timeTaken, 2)} ')
+    tempData.append([data[2]*(5/1023),data[3]]) # Taking the data that comes from the Arduino and then turning it into a resistance value based on the voltage divider calculation
+    timeTaken = data[3] - tempData[0][1] # Calculating the time taken between most recent data point and the first data point in the list
+
 
     if int(timeTaken) >= 1:
         #calculating average voltage reading in V   
         sum = 0
-        for data in tempData:
+        for data in tempData: #NOTE: Can we just use the sum function here?
             sum+=data[0]
-        avgVol = (sum / len(tempData))
+        avgVoltage = (sum / len(tempData))
+
         #calculating resistance of thermistor via voltage divider in Kilo ohms
-        resistance = ((5100*avgVol)/(5-avgVol))/1000
+        resistance = ((5100*avgVoltage)/(5-avgVoltage))/1000
+        
         #converting resistance to degrees celsius
         avgTemp = round((-21.21*math.log(resistance))+72.203, 2) 
         tempEverySecond.append(avgTemp)
