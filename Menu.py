@@ -83,6 +83,7 @@ def main_menu():
         exit(0)
         
 def show_sys_settings():
+    import time
     #pin function
     check_user_pin()
     global temp
@@ -92,10 +93,16 @@ def show_sys_settings():
         "1: Change User Pin",
         "2: Change Temperature",
         "3: Exit", "", sep="\n")
+    starTime = time.time()
     
     # Check the users input
     setting = input("Enter value: ")
+    endTime = time.time()
 
+    # If the user takes more than a minute between seeing the screen and making a selection, the program will exit
+    if endTime - starTime > 60:
+        print("You have been inactive for too long. Exiting back to main menu.\n")
+        main_menu()
     while True:
         if setting == "1" or setting == "2" or setting == "3":
             break
