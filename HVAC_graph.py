@@ -10,11 +10,13 @@ import time
 data = [22] 
 increasing = random.choice([True,False])
 
-def graph(temperatureValues: list):
+def graph(temperatureValues: list, title: str, type: str):
     """
-    This function generates a graph that plots temperature against time for the last 20s
+    This function generates a graph that plots a value against time for the last 20s e.g. ROC, temp.
 
     :param temperatureValues: a list of temperature values to be plotted (1 value/second)
+    :param title: title of graph 
+    :param type: type of graph e.g. ambTempGraph, ROCgraph, determines saved file name and y-axis label
 
     :return: None
     """
@@ -31,10 +33,13 @@ def graph(temperatureValues: list):
     
     plt.plot(valuesToBeGraphed)
     plt.xlabel('Time(s)')
-    plt.ylabel('Temperature(°C)')
-    plt.title('Temperature vs Time')
+    if 'Temp' in type:
+        plt.ylabel('Temperature(°C)')
+    elif 'ROC' in type:
+        plt.ylabel('Change in Temp. (°C)')
+    plt.title(title)
     
-    file_name = f'TempGraph_{time_string}.png'
+    file_name = f'{type}_{time_string}.png'
     plt.savefig(file_name)
     
     plt.show()
