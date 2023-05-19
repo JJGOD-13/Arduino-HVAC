@@ -52,6 +52,43 @@ def process_thermistor_data(data):
         if len(tempEverySecond) >= rateOfChangeFactor:
             roc = (tempEverySecond[-1]-tempEverySecond[-5])/rateOfChangeFactor
             rateOfChange.append(round(roc,3))
+            
+def process_ambThermistor_data(data): 
+    """
+    This function will parse the data from the thermistor and return a list of  average temperature values every second which can then be graphed
+
+    INPUT: data: [pin_mode, pin, current_reported_value,  timestamp] {This is from the arduino}
+    
+    OUTPUT: A list of average ambient temperature values every second outside the room {tempEverySecond}
+    
+    DEPENDENCIES: math, require 2 variables called ambTempData = [] and ambTempEverySecond = [] to be defined globally
+
+    """
+    #GLOBAL VARIABLES
+    from polling_loop import ambTempEverySecond, ambTempData
+
+    # IMPORTS
+    import math
+    from pymata4 import pymata4
+    
+    ambTempData.append([data[2]*(5/1023),data[3]]) # Taking the data that comes from the Arduino and then turning it into a resistance value based on the voltage divider calculation
+    timeTaken = data[3] - ambTempData[0][1] # Calculating the time taken between most recent data point and the first data point in the list
+
+
+    if int(timeTaken) >= 1:
+        #calculating average voltage reading in V   
+        sum = 0
+        for data in ambTempData: #NOTE: Can we just use the sum function here?
+            sum+=data[0]
+        avgVoltage = (sum / len(ambTempData))
+
+        #calculating resistance of thermistor via voltage divider in Kilo ohms
+        resistance = ((5100*avgVoltage)/(5-avgVoltage))/1000
+        
+        #converting resistance to degrees celsius
+        avgTemp = round((-21.21*math.log(resistance))+72.203, 2) 
+        ambTempEverySecond.append(avgTemp)
+        ambTempData.clear()
 
 def check_thermistor_operation(thermistorPin):
     """
