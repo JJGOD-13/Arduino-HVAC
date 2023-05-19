@@ -20,6 +20,8 @@ tempData = []
 tempEverySecond = []
 rateOfChange = []
 
+ambTempData = []
+ambTempEverySecond = []
 
 
 def main_menu():
@@ -28,7 +30,7 @@ def main_menu():
     This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
     """
-    global tempEverySecond
+    global tempEverySecond, ambTempEverySecond, rateOfChange
     
         
         
@@ -60,9 +62,31 @@ def main_menu():
 
             # operation 2: Graphing
             elif operation == "2":
+                print("-----------------", '\033[1m' + " Graphing " + '\033[0m', "-----------------",
+                     "1: Temperature vs Time",
+                     "2: Rate of Change of Temperature vs Time",
+                     "3: Ambient Temperature vs Time ",
+                     "4: Return to Main Menu", "", sep="\n")
+                # Check the users input
+                option = input("Enter value: ")
+
+                while True:
+                    if option == "1" or option == "2" or option == "3" or option == "4":
+                        break
+                    else:
+                        option = input("Enter a valid input (1, 2, 3 or 4): ")
                 
-                graph(data[0][-20:]) 
-                main_menu()
+                if option == '1':
+                    graph(data[0][-20:], 'Temperature vs Time', 'TempGraph')                
+                    main_menu()
+                elif option == '2':
+                    graph(data[2][-20:], 'Rate of Change of Temp. vs Time', 'ROCgraph')                
+                    main_menu()
+                elif option == '3':
+                    graph(data[3][-20:], 'Ambient Temperature vs Time', 'AmbTempGraph')                
+                    main_menu()
+                elif option == '4':
+                    main_menu()
 
             # operation 3: System settings
             elif operation == "3":
