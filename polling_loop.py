@@ -7,8 +7,8 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp, tempData, tempEverySecond, rateOfChange 
-from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond
+from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, process_ambThermistor_data
 from motor import control_motor
 
 
@@ -27,6 +27,7 @@ callbackTime = 3
 
 # Initialise pins
 thermistorPin = 1
+ambientPin = 2
 fanPin1 = 5
 fanPin2 = 6
 ledPin = 2
@@ -69,6 +70,9 @@ def polling_loop(data):
     global temp 
     global tempData
     global tempEverySecond
+    global ambTempData
+    global ambTempEverySecond
+    global rateOfChange
 
     # =======================================
     # Polling Loop
@@ -83,6 +87,7 @@ def polling_loop(data):
     # Setup the pins
             
     board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+    board.set_pin_mode_analog_input(ambientPin, process_ambThermistor_data)
 
     while True:
         try:
@@ -153,12 +158,14 @@ def polling_loop(data):
             print(f"Cycle Length: {cycleLength} seconds")
             if len(tempEverySecond)>=1:
                 print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
+            if len(ambTempEverySecond)>=1:
+                print(f"Ambient Temperature: {ambTempEverySecond[-1]}°C")
             if len(rateOfChange)>=1:    
                 print(f"Rate of Change: {rateOfChange[-1]}°C/time")
                       
             # Return the data to the main menu
 
-            returnData = [tempEverySecond, cycleLength]
+            returnData = [tempEverySecond, cycleLength, rateOfChange, ambTempEverySecond]
             
         except KeyboardInterrupt:
             control_motor()
