@@ -10,7 +10,7 @@ import time
 data = [22] 
 increasing = random.choice([True,False])
 
-def graph(temperatureValues: list, title: str, type: str):
+def graph(temperatureValues: list, title: str, type: str, graphing_time):
     """
     This function generates a graph that plots a value against time for the last 20s e.g. ROC, temp.
 
@@ -22,11 +22,12 @@ def graph(temperatureValues: list, title: str, type: str):
     """
     # NOTE: SOMETHING BUGGING !!!
     # try:
+    
     timeValues = []
-    for n in range(1,21):
+    for n in range(1,graphing_time + 1):
         timeValues.append(n)
 
-    valuesToBeGraphed = temperatureValues[-20:]
+    valuesToBeGraphed = temperatureValues[-graphing_time:]
    
     current_time = time.localtime() 
     time_string = time.strftime("%H;%M_%d-%m-%Y", current_time)
