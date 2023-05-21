@@ -112,6 +112,7 @@ def show_sys_settings():
     #pin function
     check_user_pin()
     global temp, graphing_time
+    startTime = time.time()
 
     # Print system message
     print("-----------------", '\033[1m' + " System Settings " + '\033[0m', "-----------------",
@@ -125,7 +126,7 @@ def show_sys_settings():
     endTime = time.time()
 
     # If the user takes more than a minute between seeing the screen and making a selection, the program will exit
-    if endTime - starTime > 60:
+    if endTime - startTime > 60:
         print("You have been inactive for too long. Exiting back to main menu.\n")
         main_menu()
     while True:
