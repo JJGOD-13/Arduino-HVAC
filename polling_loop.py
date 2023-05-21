@@ -112,7 +112,7 @@ def polling_loop(data):
             #airflow(q) = cubic feet per minute, i.e. cubic feet of room / number of airflows in and out of the room in a minute
             # heatflow (h) = airflow(q) * temp difference(delta T)
             #goal range = (23,27) --> goal temp is 25
-           temp2 = ambTempEverySecond[-1]
+            temp2 = ambTempEverySecond[-1]
             while True:
                 try:
                     cubicFeet = int(input(("What is the volume of the room in feet? ")))
@@ -120,47 +120,47 @@ def polling_loop(data):
                     airflow = (cubicFeet)*(flows)/(60)
                     current_temp = tempEverySecond[-1]
                     deltaTemp = float(current_temp - temp2)
-                     h = (airflow)*(deltaTemp)
+                    h = (airflow)*(deltaTemp)
                     if cubicFeet > 0:
                         if flows > 0:
                             break
                     else:
                         print("Enter valid response")
-                except keyboardInterrupt
+                except KeyboardInterrupt:
                     quit()
                     
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
             
-            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1
+            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1:
                 current_temp = tempEverySecond[-1]
-                      if h > 0:
-                        direction = 'clockwise'
-                             if 0 < h <= 0.10:
-                                speed = 100
-                            elif 0.10 < h <= 0.50:
-                                speed = 120
-                            elif 0.50< h <= 1.00:
-                                speed = 150
-                            elif 1.00 < h <= 2.00
-                                speed = 200
-                            elif h > 2.00:
-                                speed = 250
-                    elif h < 0:
-                        direction= 'anticlockwise'
-                            if -0.10 <= h < 0:
-                                speed = 100
-                            elif -0.50 <= h < -0.10:
-                                speed = 120
-                            elif -1.00<= h < -0.50:
-                                speed = 150
-                            elif -2.00 <= h < -1.00
-                                speed = 200
-                            elif h < -2.00:
-                                speed = 250
-                    else:
-                        direction = 'clockwise'
-                        speed = 0
+                if h > 0:
+                    direction = 'clockwise'
+                    if 0 < h <= 0.10:
+                        speed = 100
+                    elif 0.10 < h <= 0.50:
+                        speed = 120
+                    elif 0.50< h <= 1.00:
+                        speed = 150
+                    elif 1.00 < h <= 2.00:
+                        speed = 200
+                    elif h > 2.00:
+                        speed = 250
+                elif h < 0:
+                    direction= 'anticlockwise'
+                    if -0.10 <= h < 0:
+                        speed = 100
+                    elif -0.50 <= h < -0.10:
+                        speed = 120
+                    elif -1.00<= h < -0.50:
+                        speed = 150
+                    elif -2.00 <= h < -1.00:
+                        speed = 200
+                    elif h < -2.00:
+                        speed = 250
+                else:
+                    direction = 'clockwise'
+                    speed = 0
                     
                 control_motor(direction,speed)
 
