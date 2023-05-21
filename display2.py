@@ -135,20 +135,16 @@ def show_word(word):
     import time
     #cast the word to string
     word = str(word)
+    word.upper()
 
     # cast the word to list
 
     word = list(word)
 
-    # Loop through the word and show each char on the display
-    #NOTE: Need a way to loop through what display the char is being shown on.
-    # for i in range(len(word)):
-    #     for j in range(len(displays)):
-    #         show_char(word[i], displays[j])
-    #         time.sleep(0.5)
-
-    # hash each leter to a display.
-    for letter in word:
+    for i in range(len(word)):
+        show_char(word[i], i+1)
+        time.sleep(0.1)
+    
         
 
             
