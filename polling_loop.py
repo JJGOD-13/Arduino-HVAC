@@ -115,13 +115,13 @@ def polling_loop(data):
             # using h for heatflow
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
-            temp2 = ambTempEverySecond[-1]
+            current_temp1 = tempEverySecond[-1]
+            current_temp2 = ambTempEverySecond[-1]
             airflow = (cubicFeet)*(flows)/(60)
             deltaTemp = float(current_temp - temp2)
             h = (airflow)*(deltaTemp)
             
-            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1:
-                current_temp = tempEverySecond[-1]
+            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1 
                 if h > 0:
                     direction = 'clockwise'
                     if 0 < h <= 0.10:
