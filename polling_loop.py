@@ -196,6 +196,8 @@ def polling_loop(data):
             
         except KeyboardInterrupt:
             control_motor()
+            board.disable_analog_reporting(thermistorPin)
+            board.disable_analog_reporting(ambientPin)
             return returnData
             
 
