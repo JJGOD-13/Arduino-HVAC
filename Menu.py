@@ -76,7 +76,7 @@ def main_menu():
                         quit()
                 #start polling loop
                 
-                data = polling_loop.polling_loop(data)
+                data = polling_loop.polling_loop(data, cubicFeet, flows)
                 
 
             # operation 2: Graphing
