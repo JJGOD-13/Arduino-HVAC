@@ -109,26 +109,10 @@ def polling_loop(data):
             # MOTOR CONTROL
             # =======================================
 
-            #airflow(q) = cubic feet per minute, i.e. cubic feet of room / number of airflows in and out of the room in a minute
+            # airflow(q) = cubic feet per minute, i.e. cubic feet of room / number of airflows in and out of the room in a minute
             # heatflow (h) = airflow(q) * temp difference(delta T)
-            #goal range = (23,27) --> goal temp is 25
-            temp2 = ambTempEverySecond[-1]
-            while True:
-                try:
-                    cubicFeet = int(input(("What is the volume of the room in feet? ")))
-                    flows = float(input(("How many times would you like the air to flow in and out of the room per hour? ")))
-                    airflow = (cubicFeet)*(flows)/(60)
-                    current_temp = tempEverySecond[-1]
-                    deltaTemp = float(current_temp - temp2)
-                    h = (airflow)*(deltaTemp)
-                    if cubicFeet > 0:
-                        if flows > 0:
-                            break
-                    else:
-                        print("Enter valid response")
-                except KeyboardInterrupt:
-                    quit()
-                    
+            # goal range = (23,27) --> goal temp is 2
+            # using h for heatflow
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
             
