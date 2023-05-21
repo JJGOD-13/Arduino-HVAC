@@ -7,7 +7,7 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond, cubicFeet, flows
+from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, process_ambThermistor_data
 from motor import control_motor
 
