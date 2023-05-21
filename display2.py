@@ -3,6 +3,8 @@ A more imporved version of the display.py file.
 
 This version will utilize 2 shift registers and will also  be able to scroll chars across the display.
 """
+from pymata4 import pymata4
+board = pymata4.Pymata4()
 
 # PINS
 
@@ -68,10 +70,10 @@ chars = {
 """
 displays = {
 
-    "1" : [0,0,0,1],
-    "2" : [0,0,1,0],
-    "3" : [0,1,0,0],
-    "4" : [1,0,0,0]
+    1 : [0,0,0,1],
+    2 : [0,0,1,0],
+    3 : [0,1,0,0],
+    4 : [1,0,0,0]
 }
 
 # =======================================
@@ -82,7 +84,8 @@ def show_char(char, display):
     """
     This function will take in a char and display and will show the char on the display.
     """
-    from polling_loop import board
+    # from polling_loop import board
+    # board = pymata4.Pymata4()
     # cast the char to string
     char = str(char)
     # Get the char from the chars dictionary
@@ -109,7 +112,7 @@ def show_char(char, display):
 
     # Reverse the list back to original order
 
-    char.reverse()
+    
     char = list(char)
 
     # load the char onto the display
@@ -129,6 +132,7 @@ def show_word(word):
     """
     This function will take in a word/number and will show the word on the display.
     """
+    import time
     #cast the word to string
     word = str(word)
 
@@ -138,11 +142,34 @@ def show_word(word):
 
     # Loop through the word and show each char on the display
     #NOTE: Need a way to loop through what display the char is being shown on.
-    for i in range(len(word)):
-        for j in range(len(displays)):
-            show_char(word[i], displays[j])
+    # for i in range(len(word)):
+    #     for j in range(len(displays)):
+    #         show_char(word[i], displays[j])
+    #         time.sleep(0.5)
+
+    # hash each leter to a display.
+    for letter in word:
+        
+
             
+def clear_display():
+    """
+    This function will clear the display.
+    """
+    # from polling_loop import board
+    
+    # Loop through the binary representation
+    for j in range(16):
+        # Set the data pin to the current bit
+        board.digital_write(dataPin, 0)
+
+        # Pulse the clock pin
+        board.digital_write(clockPin, 1)
+        board.digital_write(clockPin, 0)
+    board.digital_write(latchPin, 1)
+    board.digital_write(latchPin, 0)
 
 
 if __name__ == "__main__":
-    show_char("A", "1")
+    clear_display()
+    show_char("A", 1)

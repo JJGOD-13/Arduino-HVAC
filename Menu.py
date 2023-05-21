@@ -8,7 +8,7 @@ import random
 from HVAC_graph import graph
 import polling_loop
 from user_pin_functions import check_user_pin, setup_user_pin
-from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, object_detection_mode
 
 
 
@@ -20,7 +20,12 @@ increasing = random.choice([True,False])
 tempData = []
 tempEverySecond = []
 rateOfChange = []
-
+#ultrasonic sensor
+triggerPin = 12
+echoPin = 11
+buzzerLEDpin=4
+first_reading = True # Flag to indicate first reading
+#ambient temp. thermistor
 ambTempData = []
 ambTempEverySecond = []
 
@@ -33,7 +38,8 @@ def main_menu():
     """
     global tempEverySecond, ambTempEverySecond, rateOfChange
     
-        
+    polling_loop.board.set_pin_mode_sonar(triggerPin, echoPin, callback= object_detection_mode, timeout=200000)#sets the pins for the sensor
+    polling_loop.board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input    
         
     try:
         while True:
