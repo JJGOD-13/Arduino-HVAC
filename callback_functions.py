@@ -4,7 +4,7 @@ from pymata4 import pymata4
 # Usage: This file will contain the callback functions that will be used in the polling loop
 
 #ultrasonic sensor
-def object_detection_mode():
+def object_detection_mode(data):
     """ 
     uses ultrasonic sensor to detect objects. if it senses an object greater than 5cm away, 
     it will flash a blue light with a frequency of 1hertz and beep continously.
