@@ -136,23 +136,27 @@ def polling_loop(data):
                 current_temp = tempEverySecond[-1]
                       if h > 0:
                         direction = 'clockwise'
-                             if 0 < h <= 0.01:
-                                speed = 50
-                            elif 0.01 < h <= 0.10:
+                             if 0 < h <= 0.10:
                                 speed = 100
-                            elif 0.10< h <= 0.50:
+                            elif 0.10 < h <= 0.50:
+                                speed = 120
+                            elif 0.50< h <= 1.00:
+                                speed = 150
+                            elif 1.00 < h <= 2.00
                                 speed = 200
-                            elif h > 0.50:
+                            elif h > 2.00:
                                 speed = 250
                     elif h < 0:
                         direction= 'anticlockwise'
-                            if -0.01 <= h < 0:
-                                speed = 50
-                            elif -0.10 <= h < -0.010:
+                            if -0.10 <= h < 0:
                                 speed = 100
-                            elif -0.50<+ h < -0.10:
+                            elif -0.50 <= h < -0.10:
+                                speed = 120
+                            elif -1.00<= h < -0.50:
+                                speed = 150
+                            elif -2.00 <= h < -1.00
                                 speed = 200
-                            elif h < -0.50:
+                            elif h < -2.00:
                                 speed = 250
                     else:
                         direction = 'clockwise'
