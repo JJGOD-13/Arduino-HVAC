@@ -7,8 +7,8 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp, tempData, tempEverySecond, rateOfChange 
-from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation
+from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond
+from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, process_ambThermistor_data
 from motor import control_motor
 
 
@@ -27,6 +27,7 @@ callbackTime = 3
 
 # Initialise pins
 thermistorPin = 1
+ambientPin = 2
 fanPin1 = 5
 fanPin2 = 6
 ledPin = 2
@@ -69,6 +70,9 @@ def polling_loop(data):
     global temp 
     global tempData
     global tempEverySecond
+    global ambTempData
+    global ambTempEverySecond
+    global rateOfChange
 
     # =======================================
     # Polling Loop
@@ -83,6 +87,7 @@ def polling_loop(data):
     # Setup the pins
             
     board.set_pin_mode_analog_input(thermistorPin, process_thermistor_data)
+    board.set_pin_mode_analog_input(ambientPin, process_ambThermistor_data)
 
     while True:
         try:
@@ -104,36 +109,54 @@ def polling_loop(data):
             # MOTOR CONTROL
             # =======================================
 
-
+            #airflow(q) = cubic feet per minute, i.e. cubic feet of room / number of airflows in and out of the room in a minute
+            # heatflow (h) = airflow(q) * temp difference(delta T)
             #goal range = (23,27) --> goal temp is 25
             
-            if len(tempEverySecond) >= 1:
+            while True:
+                try:
+                    cubicFeet = int(input(("What is the volume of the room in feet? ")))
+                    flows = int(input(("How many times would you like the air to flow in and out of the room per hour? ")))
+                    airflow = (cubicFeet)/((flows)*60)
+                    current_temp = tempEverySecond[-1]
+                    deltaTemp = float(current_temp - 25)
+                     h = (airflow)*(deltaTemp)
+                    if cubicFeet > 0:
+                        if flows > 0:
+                            break
+                    else:
+                        print("Enter valid response")
+                except keyboardInterrupt
+                    quit()
+                    
+            # if heatflow is less than 0, this means the current temp is lower than goal
+            # if heatflow is gteater than 0, this means the current temp is greater than goal
+            
+            if len(tempEverySecond) >= 1
                 current_temp = tempEverySecond[-1]
-                if current_temp < temp-2: #too cold
-                    direction = 'clockwise'
-                    if (temp-2) - current_temp  <1:
-                        speed = 100
-                        print('Fan set to low speed and moving heat into room') 
-                    elif (temp-2) - current_temp <3:
-                        speed = 150
-                        print('Fan set to medium speed and moving heat into room') 
-                    elif (temp-2) - current_temp >5:
-                        speed = 200
-                        print('Fan set to high speed and moving heat into room') 
-                elif current_temp > temp+2: #too hot
-                    direction = 'anticlockwise'
-                    if current_temp - (temp+2) <1:
-                        speed = 100
-                        print('Fan set to low speed and moving heat out of room') 
-                    elif current_temp - (temp+2) <3:
-                        speed = 150
-                        print('Fan set to medium speed and moving heat out of room') 
-                    elif current_temp - (temp+2) >5:
-                        speed = 200
-                        print('Fan set to high speed and moving heat out of room') 
-                else:
-                    direction = 'clockwise'
-                    speed = 0
+                      if h > 0:
+                        direction = 'clockwise'
+                             if 0 < h <= 0.01:
+                                speed = 50
+                            elif 0.01 < h <= 0.10:
+                                speed = 100
+                            elif 0.10< h <= 0.50:
+                                speed = 200
+                            elif h > 0.50:
+                                speed = 250
+                    elif h < 0:
+                        direction= 'anticlockwise'
+                            if -0.01 <= h < 0:
+                                speed = 50
+                            elif -0.10 <= h < -0.010:
+                                speed = 100
+                            elif -0.50<+ h < -0.10:
+                                speed = 200
+                            elif h < -0.50:
+                                speed = 250
+                    else:
+                        direction = 'clockwise'
+                        speed = 0
                     
                 control_motor(direction,speed)
 
@@ -153,12 +176,19 @@ def polling_loop(data):
             print(f"Cycle Length: {cycleLength} seconds")
             if len(tempEverySecond)>=1:
                 print(f"Temperature: {tempEverySecond[-1]}°C") # The tempEverySecond variable is somehow auto exported from the callback function.
+            if len(ambTempEverySecond)>=1:
+                print(f"Ambient Temperature: {ambTempEverySecond[-1]}°C")
             if len(rateOfChange)>=1:    
                 print(f"Rate of Change: {rateOfChange[-1]}°C/time")
+                if abs(rateOfChange[-1]) > 5:
+                    if rateOfChange[-1] > 0:
+                        print('!WARNING! Temperature is rapidly increasing')
+                    elif rateOfChange[-1] < 0:
+                        print('!WARNING! Temperature is rapidly decreasing') 
                       
             # Return the data to the main menu
 
-            returnData = [tempEverySecond, cycleLength]
+            returnData = [tempEverySecond, cycleLength, rateOfChange, ambTempEverySecond]
             
         except KeyboardInterrupt:
             control_motor()

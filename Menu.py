@@ -14,12 +14,15 @@ from callback_functions import process_thermistor_data, check_thermistor_operati
 
 # Global variables
 temp = 25 # NOTE: We need to figure out which function we are suppoesd to plug this value into.
+graphing_time = 20
 data = [22]
 increasing = random.choice([True,False])
 tempData = []
 tempEverySecond = []
 rateOfChange = []
 
+ambTempData = []
+ambTempEverySecond = []
 
 
 def main_menu():
@@ -28,7 +31,7 @@ def main_menu():
     This function is called to access the fan operations polling loop, graph functions or to change the system settings.
 
     """
-    global tempEverySecond
+    global tempEverySecond, ambTempEverySecond, rateOfChange
     
         
         
@@ -60,9 +63,31 @@ def main_menu():
 
             # operation 2: Graphing
             elif operation == "2":
+                print("-----------------", '\033[1m' + " Graphing " + '\033[0m', "-----------------",
+                     "1: Temperature vs Time",
+                     "2: Rate of Change of Temperature vs Time",
+                     "3: Ambient Temperature vs Time ",
+                     "4: Return to Main Menu", "", sep="\n")
+                # Check the users input
+                option = input("Enter value: ")
+
+                while True:
+                    if option == "1" or option == "2" or option == "3" or option == "4":
+                        break
+                    else:
+                        option = input("Enter a valid input (1, 2, 3 or 4): ")
                 
-                graph(data[0][-20:]) 
-                main_menu()
+                if option == '1':
+                    graph(data[0][-graphing_time:], 'Temperature vs Time', 'TempGraph', graphing_time)                
+                    main_menu()
+                elif option == '2':
+                    graph(data[2][-graphing_time:], 'Rate of Change of Temp. vs Time', 'ROCgraph', graphing_time)                
+                    main_menu()
+                elif option == '3':
+                    graph(data[3][-graphing_time:], 'Ambient Temperature vs Time', 'AmbTempGraph', graphing_time)                
+                    main_menu()
+                elif option == '4':
+                    main_menu()
 
             # operation 3: System settings
             elif operation == "3":
@@ -86,14 +111,14 @@ def show_sys_settings():
     import time
     #pin function
     check_user_pin()
-    global temp
+    global temp, graphing_time
 
     # Print system message
     print("-----------------", '\033[1m' + " System Settings " + '\033[0m', "-----------------",
         "1: Change User Pin",
         "2: Change Temperature",
-        "3: Exit", "", sep="\n")
-    starTime = time.time()
+        "3: Graphing Time",
+        "4: Exit", "", sep="\n")
     
     # Check the users input
     setting = input("Enter value: ")
@@ -104,10 +129,10 @@ def show_sys_settings():
         print("You have been inactive for too long. Exiting back to main menu.\n")
         main_menu()
     while True:
-        if setting == "1" or setting == "2" or setting == "3":
+        if setting == "1" or setting == "2" or setting == "3" or setting == "4":
             break
         else:
-            setting = input("Enter a valid input (1, 2 or 3): ")
+            setting = input("Enter a valid input (1, 2, 3 or 4): ")
 
     # If the operation is 1 then change the user pin
     if setting == "1":
@@ -127,6 +152,20 @@ def show_sys_settings():
             except:
                 print("Please enter a valid integer value between 15 and 30.\n")
         print(f"The new temperature is {temp} degrees celcius. \n")
+    
+    elif setting == "3":
+        while True:
+            x = input(f"Graphing displays values for the last: {graphing_time}s. Enter the new time in seconds: ")
+            try: 
+                graphing_time = int(x)
+                if int(graphing_time) == float(graphing_time) and 0<=graphing_time<=120:
+                    break
+                else:
+                    print("Please enter a positive integer value between 0 and 120.\n")
+            except:
+                print("Please enter a valid integer value between 0 and 120.\n")
+        print(f"The graphing function will now display values from the last {graphing_time}s. \n")
+     
 
 if __name__ == "__main__":
     main_menu()
