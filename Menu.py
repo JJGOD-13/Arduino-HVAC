@@ -67,9 +67,6 @@ def main_menu():
                     try:
                         cubicFeet = int(input(("What is the volume of the room in feet? ")))
                         flows = int(input(("How many times would you like the air to flow in and out of the room per hour? ")))
-                        airflow = (cubicFeet)*(flows)/(60)
-                        deltaTemp = float(current_temp - 25)
-                        h = (airflow)*(deltaTemp)
                         if cubicFeet > 0:
                             if flows > 0:
                                 break
