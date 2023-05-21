@@ -61,7 +61,7 @@ def polling_loop_cycle_length(start, end):
     else:
         return round(cycleLength, 2)
     
-def polling_loop(data):
+def polling_loop(data, cubicFeet, flows):
     """
     This function will run the polling loop
     OUTPUT: returnData: [tempEverySecond, cycleLength]
@@ -116,13 +116,14 @@ def polling_loop(data):
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
             
-            current_temp1 = tempEverySecond[-1]
-            current_temp2 = ambTempEverySecond[-1]
-            airflow = (cubicFeet)*(flows)/(60)
-            deltaTemp = float(current_temp - temp2)
-            h = (airflow)*(deltaTemp)
+            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1:
+                current_temp1 = tempEverySecond[-1]
+                current_temp2 = ambTempEverySecond[-1]
+                airflow = (cubicFeet)*(flows)/(60)
+                deltaTemp = float(current_temp1 - current_temp2)
+                h = (airflow)*(deltaTemp)
             
-            if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1 
+            
                 if h > 0:
                     direction = 'clockwise'
                     if 0 < h <= 0.10:
