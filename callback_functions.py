@@ -1,8 +1,41 @@
+import time
+from pymata4 import pymata4
 # Author: Jayant Godse
 # Usage: This file will contain the callback functions that will be used in the polling loop
 
 
+def object_detection_mode():
+    """ 
+    uses ultrasonic sensor to detect objects. if it senses an object greater than 5cm away, 
+    it will flash a blue light with a frequency of 1hertz and beep continously.
+    INPUTS: power from arduino
+    OUTPUTS:flashing LED and beeping noise(if condition is met) 
+    """
+    board = pymata4.Pymata4()
+    triggerPin = 12
+    echoPin = 11
+    buzzerLEDpin=4
+    first_reading = True # Flag to indicate first reading
 
+    while True:
+        try:
+            board.set_pin_mode_sonar(triggerPin, echoPin, timeout=200000)#sets the pins for the sensor
+            board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input
+            reading=board.sonar_read(triggerPin)#reads the value from the sensor
+            time.sleep(0.5)#waits for 0.5 seconds
+            
+            if first_reading:
+                first_reading = False  # Set the flag to False after the first reading
+                continue
+
+            if int(reading[0])>5:#if the cm readings is greater than 5cm
+                board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
+            else:
+                board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off
+
+        except KeyboardInterrupt:
+            board.shutdown()
+            quit()
 
 
 
@@ -127,3 +160,5 @@ def check_fan_operation(fanPin1, fanPin2):
         print("Try checking the pin and connections")
         board.shutdown()
         main_menu()
+        
+
