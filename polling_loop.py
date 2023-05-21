@@ -7,7 +7,7 @@ This program will outline how the arduino will continuosly read data from the se
 # Import the required libraries
 import time
 from pymata4 import pymata4
-from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond, h
+from Menu import temp, tempData, tempEverySecond, rateOfChange, ambTempData, ambTempEverySecond, cubicFeet, flows
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, process_ambThermistor_data
 from motor import control_motor
 
@@ -115,6 +115,10 @@ def polling_loop(data):
             # using h for heatflow
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
+            temp2 = ambTempEverySecond[-1]
+            airflow = (cubicFeet)*(flows)/(60)
+            deltaTemp = float(current_temp - temp2)
+            h = (airflow)*(deltaTemp)
             
             if len(tempEverySecond) >= 1 and len(ambTempEverySecond) >= 1:
                 current_temp = tempEverySecond[-1]
