@@ -7,7 +7,7 @@ It will make use of the ability of shift registers in order to do this.
 
 from pymata4 import pymata4
 import time
-from Menu import board
+from polling_loop import board
 
 # PINS
 
