@@ -109,36 +109,52 @@ def polling_loop(data):
             # MOTOR CONTROL
             # =======================================
 
-
+            #airflow(q) = cubic feet per minute, i.e. cubic feet of room / number of airflows in and out of the room in a minute
+            # heatflow (h) = airflow(q) * temp difference(delta T)
             #goal range = (23,27) --> goal temp is 25
             
-            if len(tempEverySecond) >= 1:
+            while True:
+                try:
+                    cubicFeet = int(input(("What is the volume of the room in feet? ")))
+                    flows = int(input(("How many times would you like the air to flow in and out of the room per hour? ")))
+                    airflow = (cubicFeet)/((flows)*60)
+                    current_temp = tempEverySecond[-1]
+                    deltaTemp = float(current_temp - 25)
+                     h = (airflow)*(deltaTemp)
+                    if cubicFeet > 0:
+                        if flows > 0:
+                            break
+                except ValueError:
+                    cubicFeet = int(input("what is the volume of the room in feet? "))
+                    
+            # if heatflow is less than 0, this means the current temp is lower than goal
+            # if heatflow is gteater than 0, this means the current temp is greater than goal
+            
+            if len(tempEverySecond) >= 1
                 current_temp = tempEverySecond[-1]
-                if current_temp < temp-2: #too cold
-                    direction = 'clockwise'
-                    if (temp-2) - current_temp  <1:
-                        speed = 100
-                        print('Fan set to low speed and moving heat into room') 
-                    elif (temp-2) - current_temp <3:
-                        speed = 150
-                        print('Fan set to medium speed and moving heat into room') 
-                    elif (temp-2) - current_temp >5:
-                        speed = 200
-                        print('Fan set to high speed and moving heat into room') 
-                elif current_temp > temp+2: #too hot
-                    direction = 'anticlockwise'
-                    if current_temp - (temp+2) <1:
-                        speed = 100
-                        print('Fan set to low speed and moving heat out of room') 
-                    elif current_temp - (temp+2) <3:
-                        speed = 150
-                        print('Fan set to medium speed and moving heat out of room') 
-                    elif current_temp - (temp+2) >5:
-                        speed = 200
-                        print('Fan set to high speed and moving heat out of room') 
-                else:
-                    direction = 'clockwise'
-                    speed = 0
+                      if h > 0:
+                        direction = 'clockwise'
+                             if 0 < h <= 0.01:
+                                speed = 50
+                            elif 0.01 < h <= 0.10:
+                                speed = 100
+                            elif 0.10< h <= 0.50:
+                                speed = 200
+                            elif h > 0.50:
+                                speed = 250
+                    elif h < 0:
+                        direction= 'anticlockwise'
+                            if -0.01 <= h < 0:
+                                speed = 50
+                            elif -0.10 <= h < -0.010:
+                                speed = 100
+                            elif -0.50<+ h < -0.10:
+                                speed = 200
+                            elif h < -0.50:
+                                speed = 250
+                    else:
+                        direction = 'clockwise'
+                        speed = 0
                     
                 control_motor(direction,speed)
 
