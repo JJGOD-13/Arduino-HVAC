@@ -115,6 +115,7 @@ def polling_loop(data):
             # using h for heatflow
             # if heatflow is less than 0, this means the current temp is lower than goal
             # if heatflow is gteater than 0, this means the current temp is greater than goal
+            
             current_temp1 = tempEverySecond[-1]
             current_temp2 = ambTempEverySecond[-1]
             airflow = (cubicFeet)*(flows)/(60)
