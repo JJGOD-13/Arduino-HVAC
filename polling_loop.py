@@ -162,6 +162,11 @@ def polling_loop(data):
                 print(f"Ambient Temperature: {ambTempEverySecond[-1]}°C")
             if len(rateOfChange)>=1:    
                 print(f"Rate of Change: {rateOfChange[-1]}°C/time")
+                if abs(rateOfChange[-1]) > 5:
+                    if rateOfChange[-1] > 0:
+                        print('!WARNING! Temperature is rapidly increasing')
+                    elif rateOfChange[-1] < 0:
+                        print('!WARNING! Temperature is rapidly decreasing') 
                       
             # Return the data to the main menu
 
