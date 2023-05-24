@@ -21,9 +21,9 @@ tempData = []
 tempEverySecond = []
 rateOfChange = []
 #ultrasonic sensor
-triggerPin = 12
-echoPin = 11
-buzzerLEDpin=4
+triggerPin = 8
+echoPin = 9
+buzzerLEDpin=7
 first_reading = True # Flag to indicate first reading
 #ambient temp. thermistor
 ambTempData = []
@@ -123,6 +123,12 @@ def main_menu():
         print(5*"\n")
         print("You have exited the program")
         print("\n")
+        # polling_loop.board.digital_write(buzzerLEDpin, 0)
+        # polling_loop.board.disable_digital_reporting(buzzerLEDpin)
+        for i in range(13):
+            polling_loop.board.digital_write(i, 0)
+        polling_loop.board.shutdown()
+        #polling_loop.board.reset()
         exit(0)
         
 def show_sys_settings():
@@ -184,7 +190,7 @@ def show_sys_settings():
             except:
                 print("Please enter a valid integer value between 0 and 120.\n")
         print(f"The graphing function will now display values from the last {graphing_time}s. \n")
-     
+    
 
 if __name__ == "__main__":
     main_menu()
