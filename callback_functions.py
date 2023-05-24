@@ -12,20 +12,78 @@ def object_detection_mode(data):
     OUTPUTS:flashing LED and beeping noise(if condition is met) 
     """
     from polling_loop import board
-    from Menu import triggerPin, first_reading, buzzerLEDpin
+    from Menu import buzzerLEDpin
+    print(data[2])
+    value = data[2]
 
-    reading= board.sonar_read(triggerPin)#reads the value from the sensor
-    time.sleep(0.5)#waits for 0.5 seconds
-    
-    if first_reading:
-        first_reading = False  # Set the flag to False after the first reading
-
-    if int(reading[0])>5:#if the cm readings is greater than 5cm
+    if value > 5:
+        print("object detected")
         board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
     else:
-        board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off
+        board.digital_pin_write(buzzerLEDpin,0)
+    # from polling_loop import board
+    # from Menu import triggerPin, first_reading, buzzerLEDpin, echoPin
+    #import ultrasonic_sensor
+    #ultrasonic_sensor.object_detection_mode(board)
 
-# Thermistor Callback Function
+
+    # board.set_pin_mode_sonar(triggerPin, echoPin, timeout=200000)#sets the pins for the sensor
+    # board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input
+    # reading=board.sonar_read(triggerPin)#reads the value from the sensor
+    # time.sleep(0.5)#waits for 0.5 seconds
+    
+    # # if first_reading:
+    # #     first_reading = False  # Set the flag to False after the first reading
+    # #     #continue
+
+    # # if int(reading[0])>5:#if the cm readings is greater than 5cm
+    # #     board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
+    # # else:
+    # #     board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off
+    # print(data[2])
+    # if int(data[2])>0:#if the cm readings is greater than 5cm
+    #     board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
+    # else:
+    #     board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off
+
+    # """ reading= board.sonar_read(triggerPin)#reads the value from the sensor
+    # time.sleep(0.5)#waits for 0.5 seconds
+    
+    # if first_reading:
+    #     first_reading = False  # Set the flag to False after the first reading
+    #     print(reading[0])
+    # if int(reading[0])>5:#if the cm readings is greater than 5cm
+    #     board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
+    # else:
+    #     board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off """
+    
+    
+# # Thermistor Callback Function
+#     triggerPin = 8
+#     echoPin = 9
+#     buzzerLEDpin=7
+#     first_reading = True # Flag to indicate first reading
+
+#     while True:
+#         try:
+#             board.set_pin_mode_sonar(triggerPin, echoPin, timeout=200000)#sets the pins for the sensor
+#             board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input
+#             reading=board.sonar_read(triggerPin)#reads the value from the sensor
+#             print(reading[0])
+#             time.sleep(0.5)#waits for 0.5 seconds
+            
+#             if first_reading:
+#                 first_reading = False  # Set the flag to False after the first reading
+#                 continue
+
+#             if int(reading[0])>5:#if the cm readings is greater than 5cm
+#                 board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
+#             else:
+#                 board.digital_pin_write(buzzerLEDpin,0)# buzzer and LED remain off
+
+#         except KeyboardInterrupt:
+#             board.shutdown()
+#             quit()
 
 def process_thermistor_data(data): 
     """
