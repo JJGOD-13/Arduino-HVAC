@@ -7,18 +7,18 @@ It will make use of the ability of shift registers in order to do this.
 
 from pymata4 import pymata4
 import time
-from polling_loop import board
+board = pymata4.Pymata4()
 
 # PINS
 
-latchPin = 8
-clockPin = 9
-dataPin = 10
+latchPin = 6
+clockPin = 7
+dataPin = 5
 
 display1 = 3
 display2 = 4
-display3 = 5
-display4 = 6
+display3 = 9
+display4 = 8
 
 
 
@@ -180,3 +180,6 @@ def show_word(word):
 
         # Wait 1 second
         time.sleep(1)
+
+
+show_char("A")
