@@ -7,18 +7,18 @@ It will make use of the ability of shift registers in order to do this.
 
 from pymata4 import pymata4
 import time
-board = pymata4.Pymata4()
+from polling_loop import board
 
 # PINS
 
-latchPin = 6
-clockPin = 7
-dataPin = 5
+latchPin = 3
+clockPin = 4
+dataPin = 2
 
-display1 = 3
-display2 = 4
-display3 = 9
-display4 = 8
+display1 = 10
+display2 = 11
+display3 = 12
+display4 = 13
 
 
 
@@ -45,11 +45,13 @@ chars = {
         "I" : [0, 0, 0, 0, 0, 1, 1, 0],
         "J" : [0, 0, 0, 0, 1, 1, 1, 0],
         "L" : [0, 0, 1, 1, 1, 0, 0, 0],
+        "N" : [0, 1, 0, 1, 0, 1, 0, 0],
         "O" : [0, 0, 1, 1, 1, 1, 1, 1],
         "P" : [0, 1, 1, 1, 0, 0, 1, 1],
         "S" : [0, 1, 1, 0, 1, 1, 0, 1],
         "T" : [0, 1, 1, 1, 1, 0, 0, 0],
         "U" : [0, 0, 1, 1, 1, 1, 1, 0],
+        "R" : [0, 1, 1, 1, 0, 1, 0, 1],
         "Y" : [0, 1, 1, 0, 1, 1, 1, 0],
         "Z" : [0, 1, 0, 1, 1, 0, 1, 1],
         " " : [0, 0, 0, 0, 0, 0, 0, 0],
@@ -98,7 +100,8 @@ def print_number_1to10():
         print(keys[i])
         binary = chars[keys[i]]
         
-
+        board.digital_write(latchPin, 0)
+        board.digital_write(clockPin, 0)
         # Loop through the binary representation
         for j in range(len(binary)):
 
@@ -112,7 +115,7 @@ def print_number_1to10():
 
         # Pulse the latch pin
         board.digital_write(latchPin, 1)
-        board.digital_write(latchPin, 0)
+        
             
 
         # Wait 1 second
@@ -156,7 +159,14 @@ def show_char(char):
         print("K, M, N, Q, R, T, W, V, X, Y, Z")
         return False
     
+
+    board.set_pin_mode_digital_output(latchPin)
+    board.set_pin_mode_digital_output(clockPin)
+    board.set_pin_mode_digital_output(dataPin)
+
     # Loop through the binary representation
+    board.digital_pin_write(latchPin, 0)
+    board.digital_write(clockPin, 0)
     for j in range(len(printer)):
         # Set the data pin to the current bit
         board.digital_write(dataPin, printer[j])
@@ -164,22 +174,85 @@ def show_char(char):
         # Pulse the clock pin
         board.digital_write(clockPin, 1)
         board.digital_write(clockPin, 0)
-    board.digital_write(latchPin, 1)
-    board.digital_write(latchPin, 0)
+    board.digital_pin_write(latchPin, 1)
+    print(printer)
+   
 
 def show_word(word):
     """
     This function will show a word on the 7 segment display
     INPUT: word - the word to be displayed
     """
-    word.upper()
+    word = str(word)
+    word = word.upper()
+    word = list(word)
+    for k in range(0,5):
+        word.append(" ")
+    
+    # set all displays to off
+    board.digital_write(display1, 1)
+    board.digital_write(display2, 1)
+    board.digital_write(display3, 1)
+    board.digital_write(display4, 1)
+
+    
     # Loop through the characters in the word
-    for i in range(len(word)):
-        # Show the current character
-        show_char(word[i])
+    for i in range(len(word)-4):
+        start = time.time()
+        board.digital_write(display1, 1)
+        board.digital_write(display2, 1)
+        board.digital_write(display3, 1)
+        board.digital_write(display4, 1)
+        while True:
+            show_char(word[0])
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 0)
+            
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
+            show_char(word[1])
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 0)
+            board.digital_write(display4, 1)
+            
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
+            show_char(word[2])
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 0)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
+            
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
+            show_char(word[3])
+            board.digital_write(display1, 0)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
 
-        # Wait 1 second
-        time.sleep(1)
+            board.digital_write(display1, 1)
+            board.digital_write(display2, 1)
+            board.digital_write(display3, 1)
+            board.digital_write(display4, 1)
+            
+
+            end = time.time()
+
+           
+            if end - start > 0.5:
+                word.pop(0)
+                break
+            
 
 
-show_char("A")
+show_word("Hello There")

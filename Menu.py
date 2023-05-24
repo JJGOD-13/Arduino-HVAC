@@ -9,6 +9,7 @@ from HVAC_graph import graph
 import polling_loop
 from user_pin_functions import check_user_pin, setup_user_pin
 from callback_functions import process_thermistor_data, check_thermistor_operation, check_fan_operation, object_detection_mode
+from display import show_word
 
 
 
@@ -42,6 +43,7 @@ def main_menu():
     polling_loop.board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input    
         
     try:
+        show_word("Welcome")
         while True:
             # loop back to the main menu unless exited
             print("-----------------", '\033[1m' + "    Main Menu    " + '\033[0m', "-----------------", 
