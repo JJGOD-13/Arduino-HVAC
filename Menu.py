@@ -38,12 +38,14 @@ def main_menu():
 
     """
     global tempEverySecond, ambTempEverySecond, rateOfChange
-    
+
+    show_word("Hello THere")
+
     polling_loop.board.set_pin_mode_sonar(triggerPin, echoPin, callback= object_detection_mode, timeout=200000)#sets the pins for the sensor
     polling_loop.board.set_pin_mode_digital_output(buzzerLEDpin)#sets digital input    
         
     try:
-        show_word("Welcome")
+        
         while True:
             # loop back to the main menu unless exited
             print("-----------------", '\033[1m' + "    Main Menu    " + '\033[0m', "-----------------", 
@@ -152,7 +154,7 @@ def show_sys_settings():
     endTime = time.time()
 
     # If the user takes more than a minute between seeing the screen and making a selection, the program will exit
-    if endTime - startTime > 60:
+    if endTime - startTime > 10:
         print("You have been inactive for too long. Exiting back to main menu.\n")
         main_menu()
     while True:

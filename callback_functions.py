@@ -13,11 +13,9 @@ def object_detection_mode(data):
     """
     from polling_loop import board
     from Menu import buzzerLEDpin
-    print(data[2])
     value = data[2]
 
     if value > 5:
-        print("object detected")
         board.digital_write(buzzerLEDpin,1)#turns on the buzzer and LED
     else:
         board.digital_pin_write(buzzerLEDpin,0)

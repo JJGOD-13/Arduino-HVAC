@@ -18,7 +18,6 @@ def object_detection_mode(board):
             board.set_pin_mode_sonar(triggerPin, echoPin, timeout=200000)#sets the pins for the sensor
             board.set_pin_mode_digital_output(buzzerpin)#sets digital input
             reading=board.sonar_read(triggerPin)#reads the value from the sensor
-            print(reading[0])
             time.sleep(0.5)#waits for 0.5 seconds
             
             if first_reading:

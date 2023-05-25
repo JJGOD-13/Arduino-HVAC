@@ -7,7 +7,7 @@ It will make use of the ability of shift registers in order to do this.
 
 from pymata4 import pymata4
 import time
-from polling_loop import board
+
 
 # PINS
 
@@ -77,13 +77,7 @@ numbers = {
 # board = pymata4.Pymata4()
 
 # Set the pin modes
-board.set_pin_mode_digital_output(latchPin)
-board.set_pin_mode_digital_output(clockPin)
-board.set_pin_mode_digital_output(dataPin)
-board.set_pin_mode_digital_output(display1)
-board.set_pin_mode_digital_output(display2)
-board.set_pin_mode_digital_output(display3)
-board.set_pin_mode_digital_output(display4)
+
 
 
 
@@ -97,7 +91,7 @@ def print_number_1to10():
     for i in range(len(keys)):
 
         # Get the binary representation of the number
-        print(keys[i])
+       
         binary = chars[keys[i]]
         
         board.digital_write(latchPin, 0)
@@ -129,7 +123,7 @@ def print_number():
 
             # Set the data pin to the current bit
             board.digital_write(dataPin, number[j])
-            print("count")
+           
 
             # Pulse the clock pin
             board.digital_write(clockPin, 1)
@@ -147,6 +141,8 @@ def show_char(char):
     INPUT: char - the character to be displayed
 
     """
+    from polling_loop import board
+   
 
     # Check if the character is a number
     if char in numbers:
@@ -175,7 +171,7 @@ def show_char(char):
         board.digital_write(clockPin, 1)
         board.digital_write(clockPin, 0)
     board.digital_pin_write(latchPin, 1)
-    print(printer)
+ 
    
 
 def show_word(word):
@@ -183,12 +179,22 @@ def show_word(word):
     This function will show a word on the 7 segment display
     INPUT: word - the word to be displayed
     """
+    from polling_loop import board
+
     word = str(word)
     word = word.upper()
     word = list(word)
     for k in range(0,5):
         word.append(" ")
     
+    # Set the pin modes
+    board.set_pin_mode_digital_output(latchPin)
+    board.set_pin_mode_digital_output(clockPin)
+    board.set_pin_mode_digital_output(dataPin)
+    board.set_pin_mode_digital_output(display1)
+    board.set_pin_mode_digital_output(display2)
+    board.set_pin_mode_digital_output(display3)
+    board.set_pin_mode_digital_output(display4)
     # set all displays to off
     board.digital_write(display1, 1)
     board.digital_write(display2, 1)
@@ -255,4 +261,3 @@ def show_word(word):
             
 
 
-show_word("Hello There")
